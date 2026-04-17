@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { workDetails } from "../../data/workDetails";
+
+export function getStaticPaths() {
+  return workDetails.map((work) => ({
+    params: { slug: work.slug },
+    props: { work }
+  }));
+}
+
+const { work } = Astro.props;
+---
+
+<BaseLayout
+  title={`${work.role} | ${work.company} | Shrey Niraula`}
+  description={work.background}
+  path={`/experience/${work.slug}`}
+  extraStyles={["/css/project_detail.css", "/css/each_work.css"]}
+>
+  <section id="my-projects-detail" class="my-projects-detail py-5">
+    <div class="container">
+      <a class="legacy-back-link" href="/experience">← Back to Experience</a>
+      <div class="row">
+        <div class="my-projects-title col-lg-12 text-center">
+          <h3 class="text-uppercase title-text">{work.role}</h3>
+          <br />
+          <h5 class="text-uppercase title-text">
+            {work.companyUrl ? (
+              <a style="text-decoration:none; color:#6dbafd" href={work.companyUrl}>{work.company}</a>
+            ) : (
+              work.company
+            )}
+          </h5>
+          <h6 class="text-uppercase title-text">
+            <i class="fa fa-map-marker fa-lg"></i> {work.location}
+          </h6>
+        </div>
+      </div>
+      <div class="work_description">
+        <div class="work_background">{work.background}</div>
+
+        <div class="jds">
+          <h5 class="to_be_blue_color">Job Descriptions</h5>
+          <ul>
+            {work.jobDescriptions.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+
+        {work.summary && (
+          <div class="work_summary">
+            <h5>{work.summaryTitle ?? "Summary"}</h5>
+            {work.summary}
+            {work.dissections && work.dissections.length > 0 && (
+              <div class="work_dissections">
+                {work.dissections.map((dissection) => (
+                  <div class="each_dissection">
+                    <h5>{dissection.title}</h5>
+                    <div class="dissection_content">
+                      {dissection.content}
+                      {dissection.tools && (
+                        <div class="dissection_content_tools">{dissection.tools}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div class="skills_so_far">
+          <h5>Skills Gained So Far</h5>
+          {work.skillsGained}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

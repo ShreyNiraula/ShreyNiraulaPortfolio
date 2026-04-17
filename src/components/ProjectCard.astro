@@ -1,0 +1,28 @@
+---
+import type { Project } from "../data/projects";
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+---
+
+<article class="legacy-card legacy-project-card h-100">
+  <div class="legacy-card-content">
+    <h3>{project.title}</h3>
+    <p class="legacy-project-summary">{project.summary}</p>
+    <p class="legacy-card-details">{project.details}</p>
+  </div>
+
+  <div class="legacy-tags legacy-tags-fixed">
+    {project.stack.map((item) => <span>{item}</span>)}
+  </div>
+
+  <div class="legacy-links legacy-links-fixed">
+    <a href={project.href}>Project details</a>
+    {project.repo && (
+      <a href={project.repo}>Repository</a>
+    )}
+  </div>
+</article>

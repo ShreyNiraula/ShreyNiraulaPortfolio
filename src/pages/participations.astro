@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ParticipationCard from "../components/ParticipationCard.astro";
+
+const entries = await getCollection("participations");
+entries.sort((a, b) => b.data.year - a.data.year);
+---
+
+<BaseLayout
+  title="Participations | Shrey Niraula"
+  description="Hackathons, competitions, and AI participation credentials including Locus Nepal, Everest Hack, and AI-NAAMII."
+  path="/participations"
+>
+  <section class="my-projects py-5">
+    <div class="container">
+      <div class="row">
+        <div class="my-projects-title col-lg-12 text-center">
+          <h3 class="text-uppercase title-text">Participations</h3>
+          <p class="legacy-section-subtitle">Competitions, hackathons, and community engagements</p>
+        </div>
+      </div>
+      <div class="row">
+        {entries.map((entry) => (
+          <div class="col-md-6 col-lg-4 mb-4">
+            <ParticipationCard item={entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

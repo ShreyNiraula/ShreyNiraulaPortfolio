@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { awards } from "../data/awards";
+---
+
+<BaseLayout
+  title="Awards | Shrey Niraula"
+  description="Academic and project awards including ranking certificate, scholarship recognition and competition honors."
+  path="/awards"
+  extraStyles={["/css/project_detail.css", "/css/participations_awards.css"]}
+>
+  <section id="my-projects-detail" class="my-projects-detail py-5">
+    <div class="container">
+      <div class="row">
+        <div class="my-projects-title col-lg-12 text-center">
+          <h3 class="text-uppercase title-text">Awards</h3>
+        </div>
+      </div>
+      <div class="project_description">
+        <div class="my_role">
+          {awards.map((award) => (
+            <>
+              <h5>{award.title}</h5>
+              <div class="my_role_summary">{award.description}</div>
+            </>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

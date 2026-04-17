@@ -1,0 +1,194 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const previousProject = project.previousSlug
+  ? projects.find((item) => item.slug === project.previousSlug)
+  : undefined;
+const nextProject = project.nextSlug
+  ? projects.find((item) => item.slug === project.nextSlug)
+  : undefined;
+---
+
+<BaseLayout
+  title={`${project.title} | Shrey Niraula`}
+  description={project.summary}
+  path={`/projects/${project.slug}`}
+  extraStyles={['/css/project_detail.css']}
+>
+  <section class="project-detail-page">
+    <div class="container">
+      <a class="legacy-back-link" href="/projects">← Back to Projects</a>
+      <div id="my-projects-detail" class="my-projects-detail">
+        <div class="row">
+          <div class="my-projects-title col-lg-12 text-center">
+            <h3 class="text-uppercase title-text">{project.title}</h3>
+            {project.subtitle && (
+              <>
+                <br />
+                <h5 class="text-uppercase title-text">{project.subtitle}</h5>
+              </>
+            )}
+            {project.year && <h6 class="text-uppercase title-text">{project.year}</h6>}
+          </div>
+        </div>
+
+        <div class="project_description">
+          {project.background && <div class="project_background">{project.background}</div>}
+
+          {project.videoUrl && (
+            <div class="video_link embed-responsive embed-responsive-16by9">
+              <iframe
+                src={project.videoUrl}
+                width="640"
+                height="360"
+                frameborder="0"
+                allow="autoplay; fullscreen"
+                allowfullscreen
+              ></iframe>
+            </div>
+          )}
+
+          {project.links && project.links.length > 0 && (
+            <div class="project_links">
+              <div class="row padded_row_container">
+                {project.links.map((link) => (
+                  <div class="col-sm-4 col-xs-12 mt-1">
+                    <a href={link.href}>{link.label}</a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(project.abstract || project.details) && (
+            <div class="long_description">
+              <div class="abstract">{project.abstract ?? project.details}</div>
+            </div>
+          )}
+
+          {project.images && project.images.length > 0 && (
+            <div class="image_areas legacy-gallery-area">
+              <div class="row">
+                {project.images.map((image, index) => (
+                  <div class="col-md-6 mb-4">
+                    <div class="image_wrapper text-center legacy-gallery-item">
+                      <img src={image} alt={`${project.title} screenshot ${index + 1}`} loading="lazy" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {project.features && project.features.length > 0 && (
+            <div class="my_role">
+              <h5>Features</h5>
+              <div class="my_role_summary">
+                {project.features.map((feature) => (
+                  <div class="my_role_bullets_each">
+                    <strong>{feature.title}</strong>
+                    <br />
+                    <br />
+                    {feature.description}
+                    {feature.images && feature.images.length > 0 && (
+                      <div class="images">
+                        {feature.images.map((image) => (
+                          <div class="each_image">
+                            <img
+                              src={image.src}
+                              class="img-fluid"
+                              alt={image.alt}
+                              title={image.title ?? image.alt}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {project.team && project.team.length > 0 && (
+            <section id="team_member_section" class="team_member_section">
+              <div class="container px-0">
+                <div class="my-projects-title col-lg-12 text-center">
+                  <h3 class="text-uppercase title-text">Team Members</h3>
+                </div>
+                {project.team.map((member) => (
+                  <div class="card-back-teams">
+                    <a href={member.profileUrl}>
+                      <img
+                        class="avatar"
+                        src={member.avatar}
+                        alt={member.name}
+                        title={member.roleLabel ?? member.name}
+                      />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <div class="project_links">
+            <div class="row padded_row_container">
+              <div class="col-sm-6 col-xs-12 mt-1">
+                <a href="/projects">Back to Projects</a>
+              </div>
+              {project.repo && (
+                <div class="col-sm-6 col-xs-12 mt-1">
+                  <a href={project.repo}>Repository</a>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {(previousProject || nextProject) && (
+            <section id="other_projects" class="other_projects">
+              <div class="container px-0">
+                <div class="row">
+                  <div class="col-sm-6">
+                    {previousProject && (
+                      <div class="previous_project">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        <a href={previousProject.href}>Previous Project</a>
+                      </div>
+                    )}
+                  </div>
+                  <div class="col-sm-6">
+                    {nextProject && (
+                      <div class="next_project">
+                        <a href={nextProject.href}>Next Project</a>
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          <div class="my_role">
+            <h5>Stack</h5>
+            <div class="my_role_summary">
+              <div class="legacy-tags">
+                {project.stack.map((item) => <span>{item}</span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

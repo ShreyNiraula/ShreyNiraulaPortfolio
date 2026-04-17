@@ -1,0 +1,13 @@
+node_modules
+*/node_modules
+
+# Build and cache output
+dist
+.astro
+
+# Local environment and editor metadata
+.venv
+.idea
+
+# OS artifacts
+.DS_Store

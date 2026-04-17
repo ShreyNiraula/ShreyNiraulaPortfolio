@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects";
+---
+
+<BaseLayout
+  title="Projects | Shrey Niraula"
+  description="Selected engineering and data projects across robotics, simulation, web, and hackathon builds."
+  path="/projects"
+  extraStyles={["/css/projects_timeline.css"]}
+>
+  <section class="my-projects py-5">
+    <div class="container">
+      <div class="row">
+        <div class="my-projects-title col-lg-12 text-center">
+          <h3 class="text-uppercase title-text">Projects</h3>
+        </div>
+      </div>
+      <div class="row">
+        {projects.map((project) => (
+          <div class="col-md-6 mb-4">
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

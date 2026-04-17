@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  items: CollectionEntry<"experience">[];
+};
+
+const { items } = Astro.props;
+---
+
+<div class="timeline">
+  {
+    items.map((item, index) => (
+      <article
+        class={`timeline_container ${index % 2 === 0 ? "timeline_position_left" : "timeline_position_right"}`}
+      >
+        <div class="timeline_content legacy-timeline-content">
+          <div class="legacy-time-row">
+            <p>{item.data.startDate} - {item.data.endDate}</p>
+            {item.data.current && <span class="legacy-current-pill">Current</span>}
+          </div>
+          <div class="legacy-role-row">
+            <h3>{item.data.role}</h3>
+            <p class="legacy-location">📍 {item.data.location}</p>
+          </div>
+          <p class="legacy-company">{item.data.company}</p>
+          <ul>
+            {item.data.highlights.map((point) => <li>{point}</li>)}
+          </ul>
+          <div class="legacy-tags">
+            {item.data.stack.map((tool) => <span>{tool}</span>)}
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>
