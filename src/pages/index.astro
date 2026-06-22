@@ -5,17 +5,20 @@ import { projects, type Project } from "../data/projects";
 
 const title = "Shrey Niraula | Data Engineer";
 const description =
-  "Data Engineer at NASA IMPACT (CSDA) building Earth-scale data pipelines and agentic AI systems.";
+  "Data Engineer at NASA IMPACT (CSDA) building large-scale data pipelines and agentic AI systems.";
 const resume = "/Shrey_Niraula_AI_ML_Resume.pdf";
 
 // Toggle the GitHub contributions ("Contributions") section.
 const showContributions = false;
+// Toggle the Awards section (kept in code, not rendered).
+const showAwards = false;
 
 const heroStats = [
-  { n: "4+", l: "Years building" },
-  { n: "4.0", l: "Master's GPA" },
-  { n: "2 to 5×", l: "Pipeline speedups" },
-  { n: "100%", l: "Manual QA removed" }
+  { n: "4+", l: "Years in data" },
+  { n: "Geospatial", l: "Satellite data" },
+  { n: "Business", l: "Analytics data" },
+  { n: "4.0", l: "MSc CS GPA" },
+  { n: "Top 1%", l: "Undergrad rank" },
 ];
 
 // ---- Project showcase (glassy side-scroller) ----
@@ -37,11 +40,17 @@ const liveOf = (p: Project): string =>
 
 // Short display title + badge per project for the carousel cards.
 const cardMeta: Record<string, { title: string; badge: string }> = {
-  "agentic-ai": { title: "Agentic Cloud Decision Framework", badge: "MS Thesis" },
-  "major-project": { title: "Visual SLAM in Dynamic Scenes", badge: "Final Year" },
-  "plf": { title: "Precision Livestock Farming", badge: "Locus Winner" },
+  "agentic-ai": {
+    title: "Self-Hosted Agentic LLM Framework",
+    badge: "MS Thesis",
+  },
+  "major-project": {
+    title: "Visual SLAM in Dynamic Scenes",
+    badge: "Final Year",
+  },
+  plf: { title: "Precision Livestock Farming", badge: "Locus Winner" },
   "minor-project": { title: "Traffic Management & Analysis", badge: "" },
-  "abu-robocon": { title: "ABU Robocon Stage Simulation", badge: "" }
+  "abu-robocon": { title: "ABU Robocon 2019 Simulator", badge: "" },
 };
 
 const showcase: Slide[] = projects
@@ -53,11 +62,11 @@ const showcase: Slide[] = projects
       year: p.year ?? "",
       title: m.title,
       blurb: p.summary || p.details || "",
-      img: p.images?.[0],
+      img: p.cardImage ?? p.heroImage ?? p.images?.[0],
       stack: p.stack,
       href: p.href,
       repo: p.repo || "",
-      live: liveOf(p)
+      live: liveOf(p),
     };
   });
 
@@ -73,9 +82,15 @@ const experience = [
       "Architected an Agentic Cloud Decision Framework using self-hosted LLMs (Ollama) for tool-augmented reasoning over petabyte-scale storage inventories, with a code-interpreter agent that automates multi-tier storage recommendations between MCP and NGAP and Human-in-the-Loop (HITL) checkpoints for final governance.",
       "Migrated legacy vendor ingestion workflows (Airbus and BlackSky) into a partitioned Airflow pipeline using PySTAC for metadata standardization, ensuring end-to-end reliability through integrated Pytest validation suites for expansion logic and transformations.",
       "Automated the manual MAXAR checksum verification workflow with an Airflow-orchestrated solution that exports metadata from DynamoDB and detects missing checksums via Athena, eliminating 100 percent of manual validation effort.",
-      "Migrated legacy Airflow DAGs to modern standards and optimized key workflows, reducing pipeline runtime."
+      "Migrated legacy Airflow DAGs to modern standards and optimized key workflows, reducing pipeline runtime.",
     ],
-    stack: ["Apache Airflow", "AWS (Athena, DynamoDB, S3, Glue)", "PySTAC", "Metadata mapping", "Pytest"]
+    stack: [
+      "Apache Airflow",
+      "AWS (Athena, DynamoDB, S3, Glue)",
+      "PySTAC",
+      "Metadata mapping",
+      "Pytest",
+    ],
   },
   {
     when: "May 2022 to Jul 2024",
@@ -89,9 +104,19 @@ const experience = [
       "Migrated a monolithic Redshift architecture into a lakehouse-based system (S3, Glue Catalog, Dremio), reducing compute cost by over 2 times and eliminating CPU bottlenecks.",
       "Refactored data anonymization logic using Python decorators, cutting demo report development time across 100+ reports from 3 months to 2 weeks.",
       "Integrated Redis caching into the reporting layer, reducing query latency by around 70 percent.",
-      "Mentored junior engineers and trained interns in Python, SQL, Spark ETL, dimensional modeling, and lakehouse architecture."
+      "Mentored junior engineers and trained interns in Python, SQL, Spark ETL, dimensional modeling, and lakehouse architecture.",
     ],
-    stack: ["Lakehouse", "Datalake", "EMR", "Glue", "Crawler", "Redis", "Optimization", "ETL Orchestration", "Dremio"]
+    stack: [
+      "Lakehouse",
+      "Datalake",
+      "EMR",
+      "Glue",
+      "Crawler",
+      "Redis",
+      "Optimization",
+      "ETL Orchestration",
+      "Dremio",
+    ],
   },
   {
     when: "May 2021 to May 2022",
@@ -103,15 +128,36 @@ const experience = [
       "Built the first production acquisition pipeline for Pinterest Ads with OAuth2 authentication.",
       "Scaled existing Facebook Ads acquisition to handle the throttle-limit issue, ensuring stable acquisition.",
       "Resolved a production issue in ETL pipelines, gaining hands-on experience with star-schema modeling and Slowly Changing Dimension (SCD).",
-      "Migrated Talend ETLs into distributed Spark (Scala and SparkSQL), cutting Redshift CPU load by 2 to 3 times and reducing ETL latency by around 3 times."
+      "Migrated Talend ETLs into distributed Spark (Scala and SparkSQL), cutting Redshift CPU load by 2 to 3 times and reducing ETL latency by around 3 times.",
     ],
-    stack: ["Data Warehousing", "Data Modeling", "Talend", "PySpark", "Scala", "SparkSQL", "Redshift", "Star-Schema Design", "OAuth2"]
-  }
+    stack: [
+      "Data Warehousing",
+      "Data Modeling",
+      "Talend",
+      "PySpark",
+      "Scala",
+      "SparkSQL",
+      "Redshift",
+      "Star-Schema Design",
+      "OAuth2",
+    ],
+  },
 ];
 
 // ---- Skills (real logo PNGs where available, Devicon otherwise) ----
-type SkillChip = { t: string; img?: string; i?: string; gen?: boolean; white?: boolean };
-const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[] = [
+type SkillChip = {
+  t: string;
+  img?: string;
+  i?: string;
+  gen?: boolean;
+  white?: boolean;
+};
+const skillCats: {
+  cat: string;
+  name: string;
+  sub: string;
+  chips: SkillChip[];
+}[] = [
   {
     cat: "lang",
     name: "Programming Languages",
@@ -119,19 +165,25 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
     chips: [
       { img: "/img/skills/python.png", t: "Python" },
       { i: "devicon-scala-plain colored", t: "Scala" },
-      { i: "devicon-azuresqldatabase-plain colored", t: "SQL" }
-    ]
+      { i: "devicon-azuresqldatabase-plain colored", t: "SQL" },
+    ],
   },
   {
     cat: "cloud",
     name: "Cloud & Big Data",
     sub: "platforms",
     chips: [
-      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "AWS (EC2, S3, Lambda)" },
-      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "Athena · Glue · DynamoDB · EMR · MSK" },
+      {
+        i: "devicon-amazonwebservices-plain-wordmark colored",
+        t: "AWS (EC2, S3, Lambda)",
+      },
+      {
+        i: "devicon-amazonwebservices-plain-wordmark colored",
+        t: "Athena · Glue · DynamoDB · EMR · MSK",
+      },
       { img: "/img/skills/spark.png", t: "Spark" },
-      { i: "devicon-apacheairflow-plain colored", t: "Apache Airflow" }
-    ]
+      { i: "devicon-apacheairflow-plain colored", t: "Apache Airflow" },
+    ],
   },
   {
     cat: "db",
@@ -143,8 +195,8 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
       { img: "/img/skills/dremio.png", t: "Dremio" },
       { img: "/img/skills/iceberg.svg", t: "Iceberg", white: true },
       { i: "devicon-postgresql-plain colored", t: "Postgres" },
-      { i: "devicon-redis-plain colored", t: "Redis" }
-    ]
+      { i: "devicon-redis-plain colored", t: "Redis" },
+    ],
   },
   {
     cat: "se",
@@ -162,8 +214,8 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
       { gen: true, t: "CI/CD" },
       { gen: true, t: "OOP" },
       { gen: true, t: "Multithreading" },
-      { gen: true, t: "Distributed Systems" }
-    ]
+      { gen: true, t: "Distributed Systems" },
+    ],
   },
   {
     cat: "concepts",
@@ -177,8 +229,8 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
       { gen: true, t: "Data Orchestration" },
       { gen: true, t: "Data Governance" },
       { gen: true, t: "ETL / ELT" },
-      { gen: true, t: "OLAP" }
-    ]
+      { gen: true, t: "OLAP" },
+    ],
   },
   {
     cat: "ai",
@@ -189,8 +241,8 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
       { gen: true, t: "LangGraph" },
       { gen: true, t: "RAG" },
       { gen: true, t: "Prompt Engineering" },
-      { gen: true, t: "Vector Databases" }
-    ]
+      { gen: true, t: "Vector Databases" },
+    ],
   },
   {
     cat: "ds",
@@ -200,26 +252,184 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
       { img: "/img/skills/pandas.png", t: "Pandas", white: true },
       { img: "/img/skills/numpy.png", t: "NumPy", white: true },
       { i: "devicon-matplotlib-plain colored", t: "Matplotlib" },
-      { gen: true, t: "Statistical Modeling" }
-    ]
-  }
+      { gen: true, t: "Statistical Modeling" },
+    ],
+  },
 ];
 
 // ---- Participations (from content collection) ----
 const participations = [
-  { badge: "International Hackathon", year: 2020, title: "Quantum Hack", event: "First International Digital Hackathon in Nepal" },
-  { badge: "AI Research", year: 2019, title: "Nepal Winter School in AI", event: "AI-NAAMII Winter School, Pokhara" },
-  { badge: "Hardware Systems", year: 2019, title: "Hardware Project Competition", event: "Locus Nepal" },
-  { badge: "Hackathon", year: 2019, title: "Everest Hack", event: "Everest Hack Nepal" },
-  { badge: "Assistive Tech", year: 2018, title: "Disaster Hack", event: "AT-Hackathon Nepal" },
-  { badge: "Innovation", year: 2018, title: "Locus 2018", event: "Locus Nepal" }
+  {
+    badge: "International Hackathon",
+    year: 2020,
+    title: "Quantum Hack",
+    event: "First International Digital Hackathon in Nepal",
+  },
+  {
+    badge: "AI Research",
+    year: 2019,
+    title: "Nepal Winter School in AI",
+    event: "AI-NAAMII Winter School, Pokhara",
+  },
+  {
+    badge: "Hardware Systems",
+    year: 2019,
+    title: "Hardware Project Competition",
+    event: "Locus Nepal",
+  },
+  {
+    badge: "Hackathon",
+    year: 2019,
+    title: "Everest Hack",
+    event: "Everest Hack Nepal",
+  },
+  {
+    badge: "Assistive Tech",
+    year: 2018,
+    title: "Disaster Hack",
+    event: "AT-Hackathon Nepal",
+  },
+  {
+    badge: "Innovation",
+    year: 2018,
+    title: "Locus 2018",
+    event: "Locus Nepal",
+  },
+];
+
+const education = [
+  {
+    school: "The University of Alabama in Huntsville",
+    degree: "Master's in Computer Science, Data Science Concentration",
+    location: "Huntsville, AL, USA",
+    when: "Aug 2024 to 2026",
+    score: "GPA 4.0",
+    subjects: [
+      "Advanced Database",
+      "Data Structures & Algorithms",
+      "Big Data Computing",
+      "Cloud Computing",
+      "Machine Learning",
+    ],
+    highlight:
+      "Thesis: Agentic Cloud Decision Framework, multi-agent local LLM orchestration and tool-augmented reasoning for large-scale NASA cloud storage.",
+  },
+  {
+    school: "Tribhuvan University, IOE, Pulchowk Campus",
+    degree: "Bachelor's in Electronics and Communication Engineering",
+    location: "Lalitpur, Nepal",
+    when: "2016 to 2021",
+    score: "81.70% (Rank 4th, top 1%)",
+    subjects: [
+      "Object Oriented Programming",
+      "Database",
+      "Artificial Intelligence",
+      "Data Mining",
+      "Linear Algebra",
+      "Computer Architecture",
+    ],
+    highlight:
+      "Ncell Excellence Cash Award (2019) for topping the consecutive 3rd and 4th semesters.",
+  },
+];
+
+type Cert = {
+  provider: string;
+  year: string;
+  title: string;
+  link?: string;
+  courses?: { t: string; link: string }[];
+};
+const certifications: Cert[] = [
+  {
+    provider: "JEES",
+    year: "Dec 2023",
+    title: "Japanese-Language Proficiency Test (JLPT) N2",
+    link: "https://www.jlpt.jp/",
+  },
+  {
+    provider: "Coursera",
+    year: "2020",
+    title: "Deep Learning Specialization",
+    link: "https://www.coursera.org/account/accomplishments/specialization/certificate/PA94WCBRK6UJ",
+    courses: [
+      {
+        t: "Neural Networks and Deep Learning",
+        link: "https://www.coursera.org/account/accomplishments/verify/JB7ZHFKK9M2W",
+      },
+      {
+        t: "Improving Deep Neural Networks",
+        link: "https://www.coursera.org/account/accomplishments/verify/YNEWS4FZ5VHK",
+      },
+      {
+        t: "Structuring Machine Learning Projects",
+        link: "https://www.coursera.org/account/accomplishments/certificate/32ZYFWK4XTYM",
+      },
+      { t: "Convolutional Neural Networks", link: "" },
+      {
+        t: "Sequence Models",
+        link: "https://www.coursera.org/account/accomplishments/certificate/HWPDZUCMNN9P",
+      },
+    ],
+  },
+  {
+    provider: "Coursera",
+    year: "Aug 2020",
+    title: "Front-End Web Development with React",
+    link: "https://www.coursera.org/account/accomplishments/certificate/7HN57LZZGHCL",
+  },
+  {
+    provider: "Coursera",
+    year: "Aug 2020",
+    title: "Server-side Development with NodeJS, Express and MongoDB",
+    link: "https://www.coursera.org/account/accomplishments/certificate/TMUX9EQM8QBZ",
+  },
+  {
+    provider: "Coursera",
+    year: "Jun 2020",
+    title: "SQL for Data Science",
+    link: "https://www.coursera.org/account/accomplishments/certificate/DY76D3TNVXT9",
+  },
+  {
+    provider: "Coursera",
+    year: "Jan 2020",
+    title: "Machine Learning (Andrew Ng)",
+    link: "https://www.coursera.org/account/accomplishments/verify/4NC4Z9XCRXZ8",
+  },
+  {
+    provider: "edX",
+    year: "Sep 2020",
+    title: "Applied Deep Learning Capstone Project (DL0320EN)",
+    link: "https://courses.edx.org/certificates/bb49ae64c3d945f49ad143d22399c184",
+  },
+];
+
+const awards = [
+  {
+    year: 2021,
+    title: "Ranking Certificate",
+    description:
+      "Ranked 4th among approximately 600+ Electronics and Communication Engineering students in Nepal.",
+  },
+  {
+    year: 2019,
+    title: "Ncell Scholarship & Excellence Award",
+    description:
+      "Awarded for topping two consecutive semesters (3rd and 4th) of second year at Pulchowk Campus.",
+  },
+  {
+    year: 2019,
+    title: "Winner, Hardware Thematic Competition",
+    description:
+      "Best project at Locus 2019 under the Hardware Thematic Category for Precision Livestock Farming.",
+  },
 ];
 
 const social = {
   email: "mailto:nshrey53@gmail.com",
   github: "https://github.com/ShreyNiraula",
   linkedin: "https://www.linkedin.com/in/shrey-niraula-27947b189/",
-  website: "https://shreyniraula.com.np"
+  website: "https://shreyniraula.com.np",
 };
 ---
 
@@ -234,9 +444,9 @@ const social = {
         <span class="fill">DATA</span><br /><span class="ghost">ENGINEER</span>
       </h1>
       <p class="lede">
-        I am an <b>AI and Data enthusiast</b> building Earth-scale data
-        pipelines and agentic AI systems. Currently at NASA IMPACT, with
-        working knowledge across business and satellite data.
+        <b>AI, Data and Cloud enthusiast</b> building large-scale data pipelines and
+        agentic AI systems. Years of data engineering experience in Marketing & Business
+        and Satellite data.
       </p>
       <div class="cta-row">
         <a class="btn primary" href={resume} target="_blank" rel="noopener">
@@ -247,7 +457,12 @@ const social = {
       <div class="hero-stats">
         {
           heroStats.map((s) => (
-            <div class="stat"><div class="n">{s.n}</div><div class="l">{s.l}</div></div>
+            <div class="stat">
+              <>
+                <div class="n">{s.n}</div>
+                <div class="l">{s.l}</div>
+              </>
+            </div>
           ))
         }
       </div>
@@ -258,27 +473,39 @@ const social = {
   <section class="band" id="about">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>About Me</h2><span class="kick"><span class="slash">//</span> who I am</span>
+        <h2>About Me</h2><span class="kick"
+          ><span class="slash">//</span> who I am</span
+        >
       </div>
       <div class="about reveal">
         <div class="pic">
           <img src="/img/landing/me.png" alt="Shrey Niraula" />
         </div>
         <div>
+          <div
+            class="greet-line about-greet"
+            aria-label="Hello in English, Japanese and Nepali"
+          >
+            <span class="greet" id="greet"></span><span class="caret"></span>
+          </div>
           <p>
-            I am a data engineer who grew up between two worlds. I spent
-            <b>six years in Japan</b> as a kid, which is where my love for
-            systems, precision and quietly well-made things began.
+            I am <b>Shrey Niraula</b>, a data engineer and computer science
+            graduate. Growing up in <b>Japan</b>, I spent countless hours around
+            games and computers, which sparked a curiosity about how software
+            works and eventually inspired me to start building things of my own.
           </p>
           <p>
-            I studied <b>Electronics and Communication Engineering</b> at
-            Pulchowk Campus in Nepal, graduating in the top 1 percent, and I
-            recently completed my <b>Master's in Computer Science</b> at UAH with
-            a 4.0 GPA and a thesis on agentic LLM systems for NASA cloud storage.
+            That curiosity guided me through Electronics Engineering and into a
+            career centered on data, software, and AI. Today, I work at the
+            intersection of <b>data engineering and agentic systems</b>,
+            exploring how intelligent applications can combine reliable data
+            foundations with autonomous reasoning and decision-making.
           </p>
           <p>
-            Away from the terminal you will find me deep in films, anime, music
-            and photography.
+            Having spent part of my childhood in Japan, I still enjoy keeping up
+            with the language and culture. Outside of work, you will usually
+            find me watching films and anime, listening to music, or diving into
+            whatever new curiosity has captured my attention.
           </p>
           <div class="langs">
             <span class="lang">Nepali (native)</span>
@@ -294,7 +521,9 @@ const social = {
   <section class="band" id="skills">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Skills</h2><span class="kick"><span class="slash">//</span> my stack</span>
+        <h2>Skills</h2><span class="kick"
+          ><span class="slash">//</span> my stack</span
+        >
       </div>
       <div class="stack-list">
         {
@@ -305,11 +534,15 @@ const social = {
                 {c.chips.map((ch) => (
                   <div class="sk">
                     {ch.img ? (
-                      <img class={ch.white ? "sk-logo on-white" : "sk-logo"} src={ch.img} alt="" />
+                      <img
+                        class={ch.white ? "sk-logo on-white" : "sk-logo"}
+                        src={ch.img}
+                        alt=""
+                      />
                     ) : ch.gen ? (
-                      <span class="sk-dot"></span>
+                      <span class="sk-dot" />
                     ) : (
-                      <i class={ch.white ? ch.i + " on-white" : ch.i}></i>
+                      <i class={ch.white ? ch.i + " on-white" : ch.i} />
                     )}
                     <span class="sk-name">{ch.t}</span>
                   </div>
@@ -326,7 +559,9 @@ const social = {
   <section class="band" id="xp">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Experience</h2><span class="kick"><span class="slash">//</span> where I have worked</span>
+        <h2>Experience</h2><span class="kick"
+          ><span class="slash">//</span> where I have worked</span
+        >
       </div>
       <div class="tl reveal">
         {
@@ -340,21 +575,67 @@ const social = {
                 <div class="tl-headrow">
                   <h3>{e.role}</h3>
                   <span class="tl-loc">
-                    <i class="fa-solid fa-location-dot"></i> {e.location}
+                    <i class="fa-solid fa-location-dot" /> {e.location}
                   </span>
                 </div>
                 <div class="co">{e.company}</div>
                 <div class="tl-collapse">
                   <ul class="tl-list">
-                    {e.bullets.map((b) => <li>{b}</li>)}
+                    {e.bullets.map((b) => (
+                      <li>{b}</li>
+                    ))}
                   </ul>
-                  <div class="stack">{e.stack.map((s) => <span>{s}</span>)}</div>
+                  <div class="stack">
+                    {e.stack.map((s) => (
+                      <span>{s}</span>
+                    ))}
+                  </div>
                 </div>
                 <button class="tl-toggle" type="button" aria-expanded="false">
                   <span class="more-label">Show more</span>
                   <span class="less-label">Show less</span>
-                  <i class="fa-solid fa-chevron-down"></i>
+                  <i class="fa-solid fa-chevron-down" />
                 </button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="band" id="education">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Education</h2><span class="kick"
+          ><span class="slash">//</span> where I studied</span
+        >
+      </div>
+      <div class="edu-clean reveal">
+        {
+          education.map((e) => (
+            <div class="edu-row">
+              <div class="edu-side">
+                <span class="edu-score">{e.score}</span>
+              </div>
+              <div class="edu-main">
+                <div class="edu-headrow">
+                  <h3>{e.school}</h3>
+                  <div class="edu-meta">
+                    <span class="edu-when">{e.when}</span>
+                    <span class="edu-loc">
+                      <i class="fa-solid fa-location-dot" /> {e.location}
+                    </span>
+                  </div>
+                </div>
+                <div class="edu-deg">{e.degree}</div>
+                <p class="edu-hl">{e.highlight}</p>
+                <div class="edu-subjects">
+                  {e.subjects.map((s) => (
+                    <span>{s}</span>
+                  ))}
+                </div>
               </div>
             </div>
           ))
@@ -367,7 +648,9 @@ const social = {
   <section class="band" id="projects">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Projects</h2><span class="kick"><span class="slash">//</span> swipe through the work</span>
+        <h2>Projects</h2><span class="kick"
+          ><span class="slash">//</span> swipe through the work</span
+        >
       </div>
     </div>
     <div class="pcf-stage reveal" id="pcf">
@@ -382,7 +665,8 @@ const social = {
             <div class="ps-body">
               <div class="ps-head">
                 <div class="ps-count">
-                  <b>{String(i + 1).padStart(2, "0")}</b> / {String(showcase.length).padStart(2, "0")}
+                  <b>{String(i + 1).padStart(2, "0")}</b> /{" "}
+                  {String(showcase.length).padStart(2, "0")}
                 </div>
                 <div class="ps-top">
                   {p.badge && <span class="badge">{p.badge}</span>}
@@ -391,19 +675,33 @@ const social = {
               </div>
               <h3>{p.title}</h3>
               <p>{p.blurb}</p>
-              <div class="ps-stack">{p.stack.map((s) => <span>{s}</span>)}</div>
+              <div class="ps-stack">
+                {p.stack.map((s) => (
+                  <span>{s}</span>
+                ))}
+              </div>
               <div class="ps-links">
                 <a class="ps-link" href={p.href}>
-                  <i class="fa-solid fa-arrow-right"></i> Details
+                  <i class="fa-solid fa-arrow-right" /> Details
                 </a>
                 {p.repo && (
-                  <a class="ps-link" href={p.repo} target="_blank" rel="noopener">
-                    <i class="fa-brands fa-github"></i> Source
+                  <a
+                    class="ps-link"
+                    href={p.repo}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <i class="fa-brands fa-github" /> Source
                   </a>
                 )}
                 {p.live && (
-                  <a class="ps-link" href={p.live} target="_blank" rel="noopener">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Live
+                  <a
+                    class="ps-link"
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <i class="fa-solid fa-arrow-up-right-from-square" /> Live
                   </a>
                 )}
               </div>
@@ -411,12 +709,16 @@ const social = {
           </article>
         ))
       }
-      <button class="pcf-arrow left" id="psPrev" aria-label="Previous project"></button>
-      <button class="pcf-arrow right" id="psNext" aria-label="Next project"></button>
+      <button class="pcf-arrow left" id="psPrev" aria-label="Previous project"
+      ></button>
+      <button class="pcf-arrow right" id="psNext" aria-label="Next project"
+      ></button>
     </div>
     <div class="wrap">
       <div class="pshow-nav reveal">
-        <a class="more-btn" href="/projects">All projects <span class="a">&rarr;</span></a>
+        <a class="more-btn" href="/projects"
+          >All projects <span class="a">&rarr;</span></a
+        >
       </div>
     </div>
   </section>
@@ -425,9 +727,11 @@ const social = {
   <section class="band" id="participations">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Participations</h2><span class="kick"><span class="slash">//</span> hackathons &amp; programs</span>
+        <h2>Participations</h2><span class="kick"
+          ><span class="slash">//</span> hackathons &amp; programs</span
+        >
       </div>
-      <div class="parts reveal">
+      <div class="parts embed reveal">
         {
           participations.map((p) => (
             <div class="part">
@@ -444,34 +748,138 @@ const social = {
     </div>
   </section>
 
+  <!-- AWARDS (hidden via showAwards flag) -->
+  {
+    showAwards && (
+      <section class="band" id="awards">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <h2>Awards</h2><span class="kick"><span class="slash">//</span> recognition</span>
+          </div>
+          <div class="parts embed reveal">
+            {awards.map((a) => (
+              <div class="part">
+                <div class="part-top">
+                  <span class="badge">Award</span>
+                  <span class="part-yr">{a.year}</span>
+                </div>
+                <h3>{a.title}</h3>
+                <p class="part-desc">{a.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- CERTIFICATIONS -->
+  <section class="band" id="certifications">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Certifications</h2><span class="kick"
+          ><span class="slash">//</span> courses I completed</span
+        >
+      </div>
+      <div class="parts embed reveal">
+        {
+          certifications.map((c) => (
+            <div class="part cert">
+              <div class="part-top">
+                <span class="badge">{c.provider}</span>
+                <span class="part-yr">{c.year}</span>
+              </div>
+              <h3>{c.title}</h3>
+              {c.courses && (
+                <div class="cert-courses">
+                  {c.courses.map((co) =>
+                    co.link ? (
+                      <a href={co.link} target="_blank" rel="noopener">
+                        {co.t}
+                      </a>
+                    ) : (
+                      <span>{co.t}</span>
+                    ),
+                  )}
+                </div>
+              )}
+              {c.link && (
+                <a
+                  class="cert-verify"
+                  href={c.link}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Verify <i class="fa-solid fa-arrow-up-right-from-square" />
+                </a>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   {
     showContributions && (
       <section class="band" id="github">
         <div class="wrap">
           <div class="sec-head reveal">
-            <h2>Contributions</h2><span class="kick"><span class="slash">//</span> github activity</span>
+            <>
+              <h2>Contributions</h2>
+              <span class="kick">
+                <span class="slash">//</span> github activity
+              </span>
+            </>
           </div>
           <div class="gh-wrap reveal">
             <div class="gh-top">
-              <div class="t"><span class="live"></span> Contributions</div>
-              <a class="h" href={social.github} target="_blank" rel="noopener">@ShreyNiraula · last 12 months</a>
+              <div class="t">
+                <span class="live" /> Contributions
+              </div>
+              <a class="h" href={social.github} target="_blank" rel="noopener">
+                @ShreyNiraula · last 12 months
+              </a>
             </div>
-            <div class="gh-grid" id="ghGrid"></div>
+            <div class="gh-grid" id="ghGrid" />
             <div class="gh-legend">
               Less
-              <span class="sw" style="background:#13203a"></span>
-              <span class="sw" style="background:#0e5a4a"></span>
-              <span class="sw" style="background:#1c8f6f"></span>
-              <span class="sw" style="background:#28c98f"></span>
-              <span class="sw" style="background:#34e0a1"></span>
+              <span class="sw" style="background:#13203a" />
+              <span class="sw" style="background:#0e5a4a" />
+              <span class="sw" style="background:#1c8f6f" />
+              <span class="sw" style="background:#28c98f" />
+              <span class="sw" style="background:#34e0a1" />
               More
             </div>
             <div class="gh-stats">
-              <div class="s"><div class="n" id="ghTotal">-</div><div class="l">Contributions</div></div>
-              <div class="s"><div class="n" id="ghStreak">-</div><div class="l">Longest streak</div></div>
-              <div class="s"><div class="n" id="ghBest">-</div><div class="l">Best day</div></div>
+              <div class="s">
+                <>
+                  <div class="n" id="ghTotal">
+                    -
+                  </div>
+                  <div class="l">Contributions</div>
+                </>
+              </div>
+              <div class="s">
+                <>
+                  <div class="n" id="ghStreak">
+                    -
+                  </div>
+                  <div class="l">Longest streak</div>
+                </>
+              </div>
+              <div class="s">
+                <>
+                  <div class="n" id="ghBest">
+                    -
+                  </div>
+                  <div class="l">Best day</div>
+                </>
+              </div>
             </div>
-            <p class="gh-note" id="ghNote">// Loading live contributions from GitHub…</p>
+            <p class="gh-note" id="ghNote">
+              // Loading live contributions from GitHub…
+            </p>
           </div>
         </div>
       </section>
@@ -482,27 +890,102 @@ const social = {
   <section class="band" id="contact">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Contact</h2><span class="kick"><span class="slash">//</span> open to work and good conversations</span>
+        <h2>Contacts</h2><span class="kick"
+          ><span class="slash">//</span> open to work and good conversations</span
+        >
       </div>
       <div class="contact reveal">
         <div class="find">
-          <a href={social.email}><span class="ic"><i class="fa-solid fa-envelope"></i></span><span class="plat">Email</span><span class="hand">nshrey53@gmail.com</span></a>
-          <a href={social.github} target="_blank" rel="noopener"><span class="ic"><i class="fa-brands fa-github"></i></span><span class="plat">GitHub</span><span class="hand">/ShreyNiraula</span></a>
-          <a href={social.linkedin} target="_blank" rel="noopener"><span class="ic"><i class="fa-brands fa-linkedin-in"></i></span><span class="plat">LinkedIn</span><span class="hand">/in/shrey-niraula-27947b189/</span></a>
-          <a href={social.website} target="_blank" rel="noopener"><span class="ic"><i class="fa-solid fa-globe"></i></span><span class="plat">Website</span><span class="hand">shreyniraula.com.np</span></a>
-          <a href={resume} target="_blank" rel="noopener"><span class="ic"><i class="fa-solid fa-id-badge"></i></span><span class="plat">Resume</span></a>
+          <a href={social.email}
+            ><span class="ic"><i class="fa-solid fa-envelope"></i></span><span
+              class="plat">Email</span
+            ><span class="hand">nshrey53@gmail.com</span></a
+          >
+          <a href={social.github} target="_blank" rel="noopener"
+            ><span class="ic"><i class="fa-brands fa-github"></i></span><span
+              class="plat">GitHub</span
+            ><span class="hand">/ShreyNiraula</span></a
+          >
+          <a href={social.linkedin} target="_blank" rel="noopener"
+            ><span class="ic"><i class="fa-brands fa-linkedin-in"></i></span
+            ><span class="plat">LinkedIn</span><span class="hand"
+              >/in/shrey-niraula-27947b189/</span
+            ></a
+          >
+          <a href={social.website} target="_blank" rel="noopener"
+            ><span class="ic"><i class="fa-solid fa-globe"></i></span><span
+              class="plat">Website</span
+            ><span class="hand">shreyniraula.com.np</span></a
+          >
+          <a href={resume} target="_blank" rel="noopener"
+            ><span class="ic"><i class="fa-solid fa-id-badge"></i></span><span
+              class="plat">Resume</span
+            ></a
+          >
         </div>
         <form class="form" id="contactForm">
-          <div class="field"><label>your name <span class="star">*</span></label><input id="cfName" placeholder="Jane Doe" required /></div>
-          <div class="field"><label>your email <span class="star">*</span></label><input id="cfEmail" type="email" placeholder="jane@company.com" required /></div>
-          <div class="field"><label>message <span class="star">*</span></label><textarea id="cfMsg" rows="3" placeholder="Let's build something." required></textarea></div>
-          <button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send message</button>
+          <div class="field">
+            <label>your name <span class="star">*</span></label><input
+              id="cfName"
+              placeholder="Jane Doe"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>your email <span class="star">*</span></label><input
+              id="cfEmail"
+              type="email"
+              placeholder="jane@company.com"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>message <span class="star">*</span></label><textarea
+              id="cfMsg"
+              rows="3"
+              placeholder="Let's build something."
+              required></textarea>
+          </div>
+          <button class="btn primary" type="submit"
+            ><i class="fa-solid fa-paper-plane"></i> Send message</button
+          >
         </form>
       </div>
     </div>
   </section>
 
   <script is:inline>
+    // hero greeting typewriter: cycles Hello / Japanese / Nepali
+    (function () {
+      const el = document.getElementById("greet");
+      if (!el) return;
+      const phrases = ["Hello", "ハロー", "नमस्ते"];
+      let pi = 0,
+        ci = 0,
+        deleting = false;
+      const tick = () => {
+        const w = phrases[pi];
+        if (!deleting) {
+          ci++;
+          el.textContent = w.slice(0, ci);
+          if (ci >= w.length) {
+            deleting = true;
+            return setTimeout(tick, 1500);
+          }
+          return setTimeout(tick, 150);
+        }
+        ci--;
+        el.textContent = w.slice(0, ci);
+        if (ci <= 0) {
+          deleting = false;
+          pi = (pi + 1) % phrases.length;
+          return setTimeout(tick, 350);
+        }
+        return setTimeout(tick, 75);
+      };
+      tick();
+    })();
+
     // 3D coverflow: active card centered/opaque, neighbors tilted back on a circle
     (function () {
       const stage = document.getElementById("pcf");
@@ -540,7 +1023,15 @@ const social = {
             z = 10;
           }
           card.style.transform =
-            "translate(-50%,-50%) translateX(" + tx + "%) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+            "translate(-50%,-50%) translateX(" +
+            tx +
+            "%) translateZ(" +
+            tz +
+            "px) rotateY(" +
+            ry +
+            "deg) scale(" +
+            sc +
+            ")";
           card.style.opacity = op;
           card.style.zIndex = z;
           card.classList.toggle("is-center", abs === 0);
@@ -563,17 +1054,27 @@ const social = {
           e.preventDefault();
           active = i;
           place();
-        })
+        }),
       );
       // touch swipe
       let sx = null;
-      stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
-      stage.addEventListener("touchend", (e) => {
-        if (sx === null) return;
-        const dx = e.changedTouches[0].clientX - sx;
-        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
-        sx = null;
-      }, { passive: true });
+      stage.addEventListener(
+        "touchstart",
+        (e) => {
+          sx = e.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      stage.addEventListener(
+        "touchend",
+        (e) => {
+          if (sx === null) return;
+          const dx = e.changedTouches[0].clientX - sx;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          sx = null;
+        },
+        { passive: true },
+      );
     })();
 
     // live GitHub contributions (only present when the section is shown)
@@ -589,7 +1090,7 @@ const social = {
       };
       try {
         const res = await fetch(
-          "https://github-contributions-api.jogruber.de/v4/" + user + "?y=last"
+          "https://github-contributions-api.jogruber.de/v4/" + user + "?y=last",
         );
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
@@ -611,7 +1112,11 @@ const social = {
           cell.className = "gh-cell";
           cell.style.background = colors[d.level] || colors[0];
           cell.title =
-            d.count + " contribution" + (d.count === 1 ? "" : "s") + " on " + d.date;
+            d.count +
+            " contribution" +
+            (d.count === 1 ? "" : "s") +
+            " on " +
+            d.date;
           grid.appendChild(cell);
           total += d.count;
           bestDay = Math.max(bestDay, d.count);
@@ -637,7 +1142,9 @@ const social = {
         const name = document.getElementById("cfName").value || "";
         const email = document.getElementById("cfEmail").value || "";
         const msg = document.getElementById("cfMsg").value || "";
-        const body = encodeURIComponent(msg + "\n\n-- " + name + " (" + email + ")");
+        const body = encodeURIComponent(
+          msg + "\n\n-- " + name + " (" + email + ")",
+        );
         const subject = encodeURIComponent("Portfolio inquiry from " + name);
         window.location.href =
           "mailto:nshrey53@gmail.com?subject=" + subject + "&body=" + body;
@@ -652,7 +1159,8 @@ const social = {
       btn.addEventListener("click", () => {
         const open = item.classList.toggle("open");
         btn.setAttribute("aria-expanded", open ? "true" : "false");
-        if (region) region.style.maxHeight = open ? region.scrollHeight + "px" : "40px";
+        if (region)
+          region.style.maxHeight = open ? region.scrollHeight + "px" : "40px";
       });
     });
   </script>

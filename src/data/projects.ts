@@ -24,6 +24,8 @@ export type Project = {
   nextSlug?: string;
   href: string;
   images?: string[];
+  heroImage?: string;
+  cardImage?: string;
   repo?: string;
   hidden?: boolean;
   stack: string[];
@@ -32,19 +34,37 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "agentic-ai",
-    title: "Agentic Cloud Decision Framework",
+    title: "Self-Hosted Agentic LLM Framework",
     subtitle: "Master's Thesis",
-    year: "2025",
+    year: "2026",
     summary:
-      "Multi-agent local LLM orchestration and tool-augmented reasoning to recommend storage tiers over large-scale NASA cloud storage.",
+      "Multi-agentic systems via local LLMs, with typed outputs, deterministic verification, and a self-correction loop, producing auditable results.",
     details:
-      "Multi-agent local LLM orchestration and tool-augmented reasoning to provide storage-tier recommendations over large-scale NASA cloud storage.",
+      "Multi-agentic systems via local LLMs, with typed outputs, deterministic verification, and a self-correction loop, producing auditable results.",
     background:
-      "My Master's thesis at UAH, built on top of my NASA IMPACT data engineering work. A code-interpreter agent automates multi-tier storage recommendations between MCP and NGAP, with Human-in-the-Loop (HITL) checkpoints for final governance.",
+      "A self-hosted multi-agent framework that runs entirely on local LLMs. Agents reason over large data inventories and call deterministic tools for retrieval and verification. When a result fails a check, a bounded self-correction loop feeds the failure back and retries. Every output is typed and fully auditable. No data leaves the environment for a third-party API.",
     abstract:
-      "A graph of cooperating self-hosted LLM agents (LangGraph and Ollama) reasons over petabyte-scale storage inventories, calling deterministic tools for retrieval and verification (RAG) before recommending a storage tier. The aim is to cut storage cost while keeping every decision auditable and Human-in-the-Loop, with no data leaving the environment for a third-party API.",
+      "Built on Pydantic AI, the system coordinates several local LLM agents through a typed pipeline. Each agent shares a typed dependency context, emits Pydantic-validated structured output, and calls deterministic Python tools, so the model proposes and code verifies every result. The design targets auditability and governance: each step is traceable, and the final output is auditable for human review. I built it to test how far self-hosted models can drive a real, end-to-end agentic workflow without a cloud API, and benchmarked several local model families on the same task.",
+    features: [
+      {
+        title: "Self-hosted multi-agent orchestration",
+        description:
+          "Coordinates multiple local LLMs (via Ollama) through a typed Pydantic AI pipeline, with no hosted API and no data leaving the environment."
+      },
+      {
+        title: "Typed outputs with deterministic verification",
+        description:
+          "Every agent returns Pydantic-validated structured data, and deterministic Python checks audit each claim. The LLM labels, the code audits."
+      },
+      {
+        title: "Bounded self-correction loop",
+        description:
+          "When an output fails a check, the verifier feedback is fed back to the agent and the step retries, so results converge to ones that pass. Every final recommendation stays traceable for human review."
+      }
+    ],
     href: "/projects/agentic-ai",
-    stack: ["LangGraph", "Ollama", "RAG", "MCP", "Python"]
+    cardImage: "/img/Projects/Agentic_AI/agentic_ai.png",
+    stack: ["Pydantic AI", "Ollama", "Multi-Agent", "Text-to-SQL", "Python"]
   },
   {
     slug: "major-project",
@@ -114,13 +134,14 @@ export const projects: Project[] = [
     title: "Precision Livestock Farming",
     subtitle: "Winner Project in Locus Event 2019, Under Hardware Thematic Category",
     year: "2019",
-    summary: "Data collection and behavior analysis project for poultry automation.",
+    summary:
+      "A data-collection and analysis system that monitors broiler chickens to estimate welfare and automate their habitat.",
     details:
-      "Combined sensor-centric data collection with analysis workflows to improve farm process automation decisions.",
+      "Precision Livestock Farming (PLF) uses advanced technologies to monitor and understand animal behavior and optimize their contribution to the livestock. The prototype monitors broiler chickens using a camera, microphone, and environmental sensors to examine feeding, mobility and distribution, correlated to the well-being and health of the broiler variety.",
     background:
-      "The project monitors mobility, distribution, feeding behavior and farm environment to estimate broiler welfare and support timely interventions.",
+      "Broiler poultry welfare is hard to track at scale. PLF monitors mobility, distribution, feeding behavior and the farm environment to estimate welfare and support timely interventions.",
     abstract:
-      "Precision Livestock Farming combines camera, microphone and environmental sensors with mobile controls to help maintain healthy poultry habitat and reduce avoidable losses.",
+      "The project presents a novel method that monitors mobility and distribution (using camera images processed with a trained YOLO and SORT algorithm) and feeding behavior (using sound analysis) to estimate the welfare of the fowls, while providing a suitable habitat for growth with environmental sensors and AC appliances. A user-friendly mobile app monitors poultry-farm status, notifies the farmer in critical situations, and controls hardware appliances such as heaters, lights and humidifiers.",
     links: [
       {
         label: "Slides",
@@ -133,9 +154,9 @@ export const projects: Project[] = [
     ],
     features: [
       {
-        title: "Behavior and habitat monitoring",
+        title: "Behavior monitoring with YOLO and SORT",
         description:
-          "Tracked feeding, mobility and distribution patterns and correlated them with sensor signals to estimate welfare.",
+          "Monitors mobility and distribution using camera images processed with a trained YOLO and SORT algorithm, and feeding behavior using sound analysis, to estimate fowl welfare.",
         images: [
           {
             src: "/img/Projects/PLF/tracking_chicken.gif",
@@ -145,9 +166,9 @@ export const projects: Project[] = [
         ]
       },
       {
-        title: "Actionable automation",
+        title: "Automated habitat and mobile control",
         description:
-          "Integrated data insights with controllable farm appliances to maintain temperature, humidity and air quality."
+          "Environmental sensors and AC appliances maintain a suitable habitat, while a mobile app lets the farmer monitor status and control heaters, lights and humidifiers, with alerts in critical situations."
       }
     ],
     previousSlug: "covid-worldmap",
@@ -159,31 +180,36 @@ export const projects: Project[] = [
       "/img/Projects/PLF/plf_display_board_resized.png"
     ],
     repo: "https://github.com/AwaleSajil/PrecisionLivestockFarming",
-    stack: ["IoT", "Data Analysis", "Automation"]
+    stack: ["YOLO", "SORT", "Sound Analysis", "IoT", "Mobile App", "Automation"]
   },
   {
     slug: "minor-project",
     title: "Vehicle Traffic Management and Analysis",
     subtitle: "Semester Project",
-    year: "2020",
+    year: "2019",
     summary:
-      "Synchronizing traffic lights across three Kathmandu junctions with a control-center style web app.",
+      "An intelligent traffic system for Kathmandu Valley that detects flow, analyzes data, and optimizes signal timing across major intersections.",
     details:
-      "Project to synchronize the traffic lights across three junctions of Kathmandu. Developed a web app to simulate the junctions that could communicate with and control them like a central control center.",
+      "The project addresses traffic jams in Kathmandu Valley, particularly at major intersections like Koteshwor, Jadibuti and Lokanthali, where fixed-timing traffic lights cause delays, deadlocks and higher fuel consumption. The goal was an intelligent system that detects traffic flow, analyzes data, and optimizes traffic light sequences for efficient management.",
     background:
-      "The system models three connected junctions of Kathmandu and coordinates their signals to keep traffic flowing, with a simulation that doubles as a live control center.",
+      "Fixed-timing traffic lights at busy Kathmandu Valley intersections (Koteshwor, Jadibuti, Lokanthali) cause delays, deadlocks and higher fuel consumption. This project set out to detect traffic flow, analyze it, and optimize signal timing.",
     abstract:
-      "The web app simulates the three junctions and can communicate with and control them like a control center, combining data collection, simulation and modeling of the junction phases.",
+      "The system was built across six phases: data collection, modeling, data analysis and prediction, hardware design and fabrication, app development, and testing and optimization. The insights aim to improve traffic management and reduce congestion in Kathmandu Valley.",
     features: [
       {
-        title: "Multi-junction synchronization",
+        title: "Data collection",
         description:
-          "Synchronizes traffic lights across three connected junctions of Kathmandu to coordinate overall flow."
+          "Videos of traffic flow at the junctions were captured and processed to determine vehicle density and stoppage times."
       },
       {
-        title: "Control-center web app",
+        title: "Web app control panel",
         description:
-          "A web app simulates the junctions and can communicate with and control them like a central control center."
+          "The web application serves as a traffic control panel for monitoring simulations and live streams, and managing traffic phases during emergencies."
+      },
+      {
+        title: "Optimization and testing",
+        description:
+          "Traffic flow data and optimized timing sequences were tested using the PTV Vissim simulation software."
       }
     ],
     previousSlug: "major-project",
@@ -195,20 +221,22 @@ export const projects: Project[] = [
       "/img/Projects/Minor_Project/phases.png"
     ],
     repo: "https://github.com/ShreyNiraula/Tragnal",
-    stack: ["Python", "Flask", "JavaScript", "AJAX / jQuery", "Simulation", "Data Modeling"]
+    stack: ["Python", "Flask", "JavaScript", "AJAX / jQuery", "PTV Vissim", "Data Collection", "Simulation", "Data Modeling"]
   },
   {
     slug: "abu-robocon",
-    title: "ABU Robocon 2019 Stage Simulation",
+    title: "ABU Robocon 2019 Simulator",
     year: "2019",
-    summary: "Computer graphics and simulation-focused team project.",
+    summary:
+      "A graphics project that simulates ABU Robocon 2019 robots and the arena to find the best robot configuration for the competition.",
     details:
-      "Modeled and simulated the ABU Robocon stage environment for learning and event-focused demonstration.",
-    background: "This project page is being reconstructed from legacy content and will be expanded over time.",
+      "A graphics project to simulate the ABU Robocon 2019 robots and stage, used to experiment with and build the best robot configuration for the competition. Focused on camera calibration, lighting effects and model rendering.",
+    background:
+      "Built to simulate the ABU Robocon 2019 robots and arena so the team could test and choose the best robot configuration before the competition.",
     previousSlug: "plf",
     nextSlug: "blind-eye",
     href: "/projects/abu-robocon",
-    stack: ["Simulation", "Computer Graphics"]
+    stack: ["C++", "OpenGL", "Camera Calibration", "Lighting Effects", "Model Rendering"]
   },
   {
     slug: "covid-worldmap",

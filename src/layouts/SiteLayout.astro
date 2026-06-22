@@ -52,9 +52,9 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
           <a href="/#about">ABOUT</a>
           <a href="/#skills">SKILLS</a>
           <a href="/#xp">EXPERIENCE</a>
+          <a href="/#education">EDUCATION</a>
           <a href="/#projects">PROJECTS</a>
-          <a href="/#participations">PARTICIPATIONS</a>
-          <a href="/#contact">CONTACT</a>
+          <a href="/#contact">CONTACTS</a>
         </nav>
         <a class="nav-cta" href={resume} target="_blank" rel="noopener">RESUME</a>
       </div>
@@ -129,6 +129,9 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       @media (max-width: 900px) { .nav-links { display: none; } }
 
       .hero { padding: 96px 0 70px; position: relative; }
+      .greet-line { display: flex; align-items: center; gap: 5px; min-height: 1.25em; margin-bottom: 22px; font-family: var(--font-disp); font-weight: 800; font-style: italic; font-size: clamp(26px, 3.4vw, 38px); letter-spacing: -0.01em; line-height: 1.1; color: var(--acc); }
+      .caret { width: 3px; height: 1.05em; background: var(--acc); display: inline-block; border-radius: 1px; animation: caretBlink 1s steps(1) infinite; }
+      @keyframes caretBlink { 50% { opacity: 0; } }
       .status { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); margin-bottom: 26px; }
       .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--acc); animation: pulse 2.2s infinite; }
       @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.5); } 70% { box-shadow: 0 0 0 9px rgba(34, 211, 238, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); } }
@@ -155,12 +158,13 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .page-head .lede { margin-top: 22px; max-width: 60ch; font-size: 17px; line-height: 1.7; color: var(--ink-2); }
 
       .about { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 50px; align-items: center; }
-      .about .pic { position: relative; }
+      .about .pic { position: relative; display: flex; justify-content: center; }
       .about .pic img {
-        width: 100%; display: block; max-width: 420px; margin: 0 auto;
-        -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
-        mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+        width: clamp(260px, 30vw, 360px); aspect-ratio: 1; border-radius: 50%;
+        object-fit: cover; object-position: 50% 0%;
+        background: transparent;
       }
+      .about-greet { font-size: clamp(22px, 2.6vw, 30px); margin-bottom: 16px; }
       .about p { font-size: 18px; line-height: 1.78; color: var(--ink-2); margin-bottom: 16px; }
       .about p b { color: var(--ink); font-weight: 600; }
       .about .langs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
@@ -239,8 +243,10 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .more-btn .a { color: var(--acc); }
 
       /* skills - embedded layout (no cards) */
-      .stack-list { display: flex; flex-direction: column; gap: 36px; }
-      .stack-row { display: grid; grid-template-columns: 220px 1fr; gap: 30px; align-items: start; }
+      .stack-list { display: flex; flex-direction: column; }
+      .stack-row { display: grid; grid-template-columns: 220px 1fr; gap: 30px; align-items: start; position: relative; padding: 30px 0; }
+      .stack-row:first-child { padding-top: 4px; }
+      .stack-row:not(:first-child)::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, var(--line-2), transparent 75%); }
       .stack-cat { font-family: var(--font-disp); font-weight: 800; font-size: clamp(18px, 1.8vw, 24px); text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.15; color: var(--ink-3); }
       .stack-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 18px; }
       .sk { display: flex; align-items: center; gap: 13px; transition: transform 0.18s; }
@@ -295,6 +301,9 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
       .part { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; }
       .part:hover { border-color: var(--acc); transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4); }
+      .parts.embed { gap: 26px 28px; }
+      .parts.embed .part { background: none; border: none; border-left: 2px solid var(--line); border-radius: 0; padding: 4px 0 4px 18px; }
+      .parts.embed .part:hover { transform: none; box-shadow: none; border-left-color: var(--acc); }
       .part-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .part-top .badge { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 2px 9px; }
       .part-yr { font-family: var(--font-mono); font-size: 12px; color: var(--sky); }
@@ -303,6 +312,32 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .part-desc { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
       .part-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
       .part-tags span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 3px 7px; }
+
+      /* education - clean editorial rows */
+      .edu-clean { display: flex; flex-direction: column; }
+      .edu-row { display: grid; grid-template-columns: 175px 1fr; gap: 30px; padding: 30px 0; border-top: 1px solid var(--line); }
+      .edu-row:first-child { border-top: none; padding-top: 4px; }
+      .edu-side { padding-top: 6px; }
+      .edu-side .edu-score { font-family: var(--font-mono); font-size: 13px; color: var(--green); line-height: 1.5; }
+      .edu-headrow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+      .edu-main h3 { font-family: var(--font-disp); font-weight: 800; font-size: 22px; letter-spacing: -0.01em; }
+      .edu-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: 12.5px; white-space: nowrap; }
+      .edu-meta .edu-when { color: var(--sky); }
+      .edu-meta .edu-loc { color: var(--ink-3); display: inline-flex; gap: 5px; align-items: center; }
+      .edu-meta .edu-loc i { color: var(--sky); }
+      .edu-deg { font-family: var(--font-mono); font-size: 13px; font-style: italic; color: var(--acc); margin-top: 6px; }
+      .edu-hl { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); margin: 14px 0; }
+      .edu-subjects { display: flex; flex-wrap: wrap; gap: 7px; }
+      .edu-subjects span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px; }
+      @media (max-width: 720px) { .edu-row { grid-template-columns: 1fr; gap: 10px; } .edu-meta { align-items: flex-start; } }
+
+      /* certifications */
+      .cert-courses { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; }
+      .cert-courses a, .cert-courses span { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-3); padding-left: 14px; position: relative; line-height: 1.4; }
+      .cert-courses a::before, .cert-courses span::before { content: "\25B8"; position: absolute; left: 0; color: var(--ink-3); }
+      .cert-courses a:hover { color: var(--acc); }
+      .cert-verify { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sky); display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 4px; }
+      .cert-verify:hover { color: var(--acc); }
 
       /* project detail */
       .detail .wrap { max-width: 900px; }
@@ -318,6 +353,8 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .d-stack { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
       .d-stack span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px; }
       .d-lead { font-size: 18px; line-height: 1.7; color: var(--ink); margin-bottom: 30px; }
+      .d-hero { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 30px; background: var(--card-2); }
+      .d-hero img { width: 100%; height: auto; display: block; }
       .d-video { aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 30px; background: #000; }
       .d-video iframe { width: 100%; height: 100%; border: 0; display: block; }
       .d-block { margin-bottom: 34px; }

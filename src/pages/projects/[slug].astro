@@ -60,6 +60,14 @@ const overview = project.abstract ?? project.details;
       {project.background && <p class="d-lead reveal">{project.background}</p>}
 
       {
+        project.heroImage && (
+          <div class="d-hero reveal">
+            <img src={project.heroImage} alt={project.title} />
+          </div>
+        )
+      }
+
+      {
         project.videoUrl && (
           <div class="d-video reveal">
             <iframe
