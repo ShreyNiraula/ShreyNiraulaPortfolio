@@ -1,32 +1,45 @@
 ---
+import SiteLayout from "../layouts/SiteLayout.astro";
 import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ParticipationCard from "../components/ParticipationCard.astro";
 
 const entries = await getCollection("participations");
 entries.sort((a, b) => b.data.year - a.data.year);
 ---
 
-<BaseLayout
+<SiteLayout
   title="Participations | Shrey Niraula"
   description="Hackathons, competitions, and AI participation credentials including Locus Nepal, Everest Hack, and AI-NAAMII."
   path="/participations"
 >
-  <section class="my-projects py-5">
-    <div class="container">
-      <div class="row">
-        <div class="my-projects-title col-lg-12 text-center">
-          <h3 class="text-uppercase title-text">Participations</h3>
-          <p class="legacy-section-subtitle">Competitions, hackathons, and community engagements</p>
-        </div>
-      </div>
-      <div class="row">
-        {entries.map((entry) => (
-          <div class="col-md-6 col-lg-4 mb-4">
-            <ParticipationCard item={entry} />
-          </div>
-        ))}
+  <section class="page-head">
+    <div class="wrap">
+      <span class="kick"><span class="slash">//</span> hackathons &amp; programs</span>
+      <h1>Participations</h1>
+      <p class="lede">
+        Competitions, hackathons, and community engagements from across my
+        engineering years in Nepal.
+      </p>
+    </div>
+  </section>
+
+  <section class="band" style="border-top:none;padding-top:40px;">
+    <div class="wrap">
+      <div class="parts reveal">
+        {
+          entries.map((e) => (
+            <div class="part">
+              <div class="part-top">
+                {e.data.badgeLabel && <span class="badge">{e.data.badgeLabel}</span>}
+                <span class="part-yr">{e.data.year}</span>
+              </div>
+              <h3>{e.data.title}</h3>
+              <div class="part-ev">{e.data.event} · {e.data.location}</div>
+              <p class="part-desc">{e.data.description}</p>
+              <div class="part-tags">{e.data.tags.map((t) => <span>{t}</span>)}</div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
-</BaseLayout>
+</SiteLayout>

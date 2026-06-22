@@ -25,10 +25,27 @@ export type Project = {
   href: string;
   images?: string[];
   repo?: string;
+  hidden?: boolean;
   stack: string[];
 };
 
 export const projects: Project[] = [
+  {
+    slug: "agentic-ai",
+    title: "Agentic Cloud Decision Framework",
+    subtitle: "Master's Thesis",
+    year: "2025",
+    summary:
+      "Multi-agent local-LLM orchestration with tool-augmented reasoning to recommend storage tiers over petabyte-scale NASA inventories.",
+    details:
+      "Multi-agent local-LLM orchestration with tool-augmented reasoning to recommend storage tiers over petabyte-scale NASA inventories.",
+    background:
+      "My Master's thesis at UAH, built on top of my NASA IMPACT data engineering work. It asks whether self-hosted, tool-augmented LLM agents can make reliable, explainable cloud-storage tiering decisions over petabyte-scale Earth-observation inventories.",
+    abstract:
+      "A graph of cooperating local LLM agents (LangGraph + Ollama) reasons over inventory metadata, access patterns and cost models, calling deterministic tools for retrieval and verification (RAG) before recommending a storage tier. The goal is to cut storage cost while keeping every decision auditable, with no data leaving the environment for a third-party API.",
+    href: "/projects/agentic-ai",
+    stack: ["LangGraph", "Local LLMs", "RAG", "Ollama", "Python"]
+  },
   {
     slug: "major-project",
     title: "Real Time Visual Localization and Mapping of Mobile Robot in Dynamic Environment",
@@ -171,6 +188,7 @@ export const projects: Project[] = [
   },
   {
     slug: "covid-worldmap",
+    hidden: true,
     title: "COVID-19 WorldMap",
     year: "2020",
     summary: "React-based project consuming external pandemic APIs.",
@@ -230,6 +248,7 @@ export const projects: Project[] = [
   },
   {
     slug: "blind-eye",
+    hidden: true,
     title: "Blind Eye",
     year: "2018",
     summary: "Hackathon concept for assistive wearable navigation.",

@@ -1,187 +1,648 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+// Homepage built on the Shrey Niraula design system (v2 navy direction).
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { projects, type Project } from "../data/projects";
+
+const title = "Shrey Niraula | Data Engineer";
+const description =
+  "Data Engineer at NASA IMPACT (CSDA) building Earth-scale data pipelines and agentic AI systems.";
+const resume = "/Shrey_Niraula_AI_ML_Resume.pdf";
+
+// Toggle the GitHub contributions ("Contributions") section.
+const showContributions = false;
+
+const heroStats = [
+  { n: "4+", l: "Years building" },
+  { n: "4.0", l: "Master's GPA" },
+  { n: "2 to 5×", l: "Pipeline speedups" },
+  { n: "100%", l: "Manual QA removed" }
+];
+
+// ---- Project showcase (glassy side-scroller) ----
+type Slide = {
+  badge: string;
+  year: string;
+  title: string;
+  blurb: string;
+  stack: string[];
+  href: string;
+  repo: string;
+  live: string;
+  img?: string;
+  code?: string;
+};
+
+const liveOf = (p: Project): string =>
+  p.links?.find((l) => /site|website|live|demo/i.test(l.label))?.href || "";
+
+// Short display title + badge per project for the carousel cards.
+const cardMeta: Record<string, { title: string; badge: string }> = {
+  "agentic-ai": { title: "Agentic Cloud Decision Framework", badge: "MS Thesis" },
+  "major-project": { title: "Visual SLAM in Dynamic Scenes", badge: "Final Year" },
+  "plf": { title: "Precision Livestock Farming", badge: "Locus Winner" },
+  "minor-project": { title: "Traffic Management & Analysis", badge: "" },
+  "abu-robocon": { title: "ABU Robocon Stage Simulation", badge: "" }
+};
+
+const showcase: Slide[] = projects
+  .filter((p) => !p.hidden)
+  .map((p): Slide => {
+    const m = cardMeta[p.slug] || { title: p.title, badge: "" };
+    return {
+      badge: m.badge,
+      year: p.year ?? "",
+      title: m.title,
+      blurb: p.summary || p.details || "",
+      img: p.images?.[0],
+      stack: p.stack,
+      href: p.href,
+      repo: p.repo || "",
+      live: liveOf(p)
+    };
+  });
+
+// ---- Experience (full bullets + stacks from content collection) ----
+const experience = [
+  {
+    when: "Aug 2024 to Present",
+    badge: "Current",
+    role: "Data Engineer",
+    company: "NASA IMPACT (CSDA Program)",
+    location: "Huntsville, AL, USA",
+    bullets: [
+      "Migrated Airbus and BlackSky ingestion workflows into centralized Airflow pipelines with partitioned storage and STAC item generation.",
+      "Built Pytest and validation workflows to enforce data and transformation correctness.",
+      "Automated MAXAR checksum verification through Airflow, DynamoDB and Athena, eliminating manual validation overhead.",
+      "Modernized and optimized legacy DAGs to reduce pipeline runtime and improve reliability."
+    ],
+    stack: ["Python", "Apache Airflow", "PySTAC", "AWS DynamoDB", "AWS Athena", "STAC"]
+  },
+  {
+    when: "May 2022 to Jul 2024",
+    badge: "",
+    role: "Mid-Level Data Engineer",
+    company: "GrowByData Services",
+    location: "Lalitpur, Nepal",
+    bullets: [
+      "Owned end-to-end POC to reporting pipelines for LeadGen and Amazon data sources.",
+      "Re-architected social and SEO ingestion pipelines for multithreaded acquisition with 2 to 5 times performance gains.",
+      "Migrated a Redshift-heavy architecture to a lakehouse model and reduced compute costs by over 2 times.",
+      "Optimized reporting latency with materialized views and Redis cache integration.",
+      "Mentored junior engineers and interns on ETL design, dimensional modeling, and data platform fundamentals."
+    ],
+    stack: ["Python", "Spark", "AWS S3", "Glue Catalog", "Dremio", "Redis", "SQL"]
+  },
+  {
+    when: "May 2021 to May 2022",
+    badge: "",
+    role: "Associate Data Engineer",
+    company: "GrowByData Services",
+    location: "Lalitpur, Nepal",
+    bullets: [
+      "Built the first production Pinterest Ads acquisition pipeline with OAuth2 integration.",
+      "Stabilized Facebook Ads ingestion under throttle constraints.",
+      "Resolved ETL production issues while building depth in star-schema and SCD modeling.",
+      "Migrated Talend flows to distributed Spark, reducing ETL latency and Redshift CPU load significantly."
+    ],
+    stack: ["Python", "Scala", "SparkSQL", "Redshift", "OAuth2"]
+  }
+];
+
+// ---- Skills (real logo PNGs where available, Devicon otherwise) ----
+const skillCats = [
+  {
+    cat: "lang",
+    name: "Languages",
+    sub: "core",
+    chips: [
+      { img: "/img/skills/python.png", t: "Python" },
+      { i: "devicon-scala-plain colored", t: "Scala" },
+      { i: "devicon-azuresqldatabase-plain colored", t: "SQL" }
+    ]
+  },
+  {
+    cat: "cloud",
+    name: "Cloud & Big Data",
+    sub: "platforms",
+    chips: [
+      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "AWS (EC2, S3, Lambda)" },
+      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "Athena · Glue · EMR" },
+      { img: "/img/skills/spark.png", t: "Spark" },
+      { i: "devicon-apacheairflow-plain colored", t: "Apache Airflow" }
+    ]
+  },
+  {
+    cat: "db",
+    name: "Databases & Caching",
+    sub: "storage",
+    chips: [
+      { img: "/img/skills/mysql.png", t: "MySQL" },
+      { img: "/img/skills/redshift.png", t: "Redshift" },
+      { img: "/img/skills/dremio.png", t: "Dremio" },
+      { gen: true, t: "Iceberg" },
+      { i: "devicon-postgresql-plain colored", t: "Postgres" },
+      { i: "devicon-redis-plain colored", t: "Redis" }
+    ]
+  },
+  {
+    cat: "se",
+    name: "Software Engineering",
+    sub: "craft",
+    chips: [
+      { img: "/img/skills/flask.png", t: "Flask" },
+      { img: "/img/skills/react.png", t: "React" },
+      { i: "devicon-docker-plain colored", t: "Docker" },
+      { img: "/img/skills/git.png", t: "Git" },
+      { img: "/img/skills/ubuntu.png", t: "Linux" },
+      { i: "devicon-terraform-plain colored", t: "Terraform" },
+      { gen: true, t: "CI/CD" },
+      { gen: true, t: "REST APIs" }
+    ]
+  },
+  {
+    cat: "ai",
+    name: "AI / ML",
+    sub: "focus",
+    chips: [
+      { gen: true, t: "Local LLMs" },
+      { gen: true, t: "LangGraph" },
+      { gen: true, t: "RAG" },
+      { gen: true, t: "Prompt Engineering" },
+      { gen: true, t: "Vector Databases" }
+    ]
+  },
+  {
+    cat: "ds",
+    name: "Data Science",
+    sub: "analysis",
+    chips: [
+      { i: "devicon-pandas-original colored", t: "Pandas" },
+      { i: "devicon-numpy-original colored", t: "NumPy" },
+      { i: "devicon-matplotlib-plain colored", t: "Matplotlib" },
+      { gen: true, t: "Statistical Modeling" }
+    ]
+  }
+];
+
+// ---- Participations (from content collection) ----
+const participations = [
+  { badge: "International Hackathon", year: 2020, title: "Quantum Hack", event: "First International Digital Hackathon in Nepal" },
+  { badge: "AI Research", year: 2019, title: "Nepal Winter School in AI", event: "AI-NAAMII Winter School, Pokhara" },
+  { badge: "Hardware Systems", year: 2019, title: "Hardware Project Competition", event: "Locus Nepal" },
+  { badge: "Hackathon", year: 2019, title: "Everest Hack", event: "Everest Hack Nepal" },
+  { badge: "Assistive Tech", year: 2018, title: "Disaster Hack", event: "AT-Hackathon Nepal" },
+  { badge: "Innovation", year: 2018, title: "Locus 2018", event: "Locus Nepal" }
+];
+
+const social = {
+  email: "mailto:nshrey53@gmail.com",
+  github: "https://github.com/ShreyNiraula",
+  linkedin: "https://www.linkedin.com/in/shrey-niraula-27947b189/",
+  website: "https://shreyniraula.com.np"
+};
 ---
 
-<BaseLayout
-  title="Shrey Niraula | Data Engineer"
-  description="Data Engineer at NASA IMPACT (CSDA) building scalable data pipelines and analytics systems."
-  path="/"
->
-  <section id="my-about" class="home-band home-band-dark my-about">
-    <div class="container">
-      <div class="row my-about-intro">
-        <div class="col-lg-7">
-          <div class="my-intro">
-            <p class="home-label">About Me</p>
-            <h3>Hello, My name is Shrey Niraula.</h3>
-            <p>
-              I am Data Engineer with 4+ years of experience specialized in scalable
-              Lakehouse architectures and Agentic AI frameworks. Proven ability
-              to bridge the gap between Big Data infrastructure and LLM-driven
-              automation, including developing autonomous cloud optimization
-              agents and high-performance ETL pipelines.
-            </p>
-            <p>
-              I did my schooling in Japan for six years, and I am fluent in
-              Nepali, Japanese, and English. That cross-cultural background
-              shapes how I collaborate, learn quickly, and communicate across
-              diverse teams.
-            </p>
-            <p>
-              Outside work, I watch films, movies, and anime, listen to music,
-              and enjoy photography.
-            </p>
+<SiteLayout title={title} description={description} path="/">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="status">
+        <span class="dot"></span> Available for Data / AI infrastructure roles
+      </div>
+      <h1 class="big">
+        <span class="fill">DATA</span><br /><span class="ghost">ENGINEER</span>
+      </h1>
+      <p class="lede">
+        I build Earth-scale data pipelines and <b>agentic AI systems</b>.
+        Currently at NASA IMPACT, turning petabyte-scale storage into
+        LLM-driven automation.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href={resume} target="_blank" rel="noopener">
+          <i class="fa-solid fa-id-badge"></i> Resume
+        </a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+      <div class="hero-stats">
+        {
+          heroStats.map((s) => (
+            <div class="stat"><div class="n">{s.n}</div><div class="l">{s.l}</div></div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="band" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>About Me</h2><span class="kick"><span class="slash">//</span> who I am</span>
+      </div>
+      <div class="about reveal">
+        <div class="pic">
+          <img src="/img/landing/portrait-pixel-faded.png" alt="Shrey Niraula" />
+        </div>
+        <div>
+          <p>
+            I am a data engineer who grew up between two worlds. I spent
+            <b>six years in Japan</b> as a kid, which is where my love for
+            systems, precision and quietly well-made things began.
+          </p>
+          <p>
+            I studied <b>Electronics and Communication Engineering</b> at
+            Pulchowk Campus in Nepal, graduating in the top 1 percent, and I am
+            now finishing a <b>Master's in Computer Science</b> at UAH with a
+            4.0 GPA and a thesis on agentic LLM systems for NASA cloud storage.
+          </p>
+          <p>
+            Away from the terminal you will find me deep in films, anime, music
+            and photography.
+          </p>
+          <div class="langs">
+            <span class="lang">Nepali (native)</span>
+            <span class="lang">Japanese (fluent)</span>
+            <span class="lang">English (fluent)</span>
           </div>
         </div>
-        <div class="col-lg-5">
-          <div class="legacy-photo-wrap mt-3 mt-lg-0">
-            <div class="legacy-photo-circle">
-              <img
-                src="/img/landing/IMG_14914mp.JPG"
-                alt="Shrey Niraula"
-                loading="lazy"
-              />
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="band" id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Skills</h2><span class="kick"><span class="slash">//</span> filter by area</span>
+      </div>
+      <div class="skill-filter reveal" id="skillFilter">
+        {
+          skillCats.map((c) => (
+            <label class="cb">
+              <input type="checkbox" data-cat={c.cat} checked />
+              <span class="box"></span>{c.name}
+            </label>
+          ))
+        }
+      </div>
+      <div class="reveal">
+        {
+          skillCats.map((c) => (
+            <div class="skill-cat" data-cat={c.cat}>
+              <div class="cn">{c.name}<span class="sub">{c.sub}</span></div>
+              <div class="chips">
+                {c.chips.map((ch) => (
+                  <span class="chip">
+                    {ch.img ? (
+                      <img class="chip-logo" src={ch.img} alt="" loading="lazy" />
+                    ) : ch.gen ? (
+                      <span class="gen"></span>
+                    ) : (
+                      <i class={ch.i}></i>
+                    )}
+                    {ch.t}
+                  </span>
+                ))}
+              </div>
             </div>
-            <p class="legacy-photo-caption">Shrey Niraula</p>
-          </div>
-        </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <section id="my-skills" class="home-band home-band-light">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-7 mb-4 mb-lg-0">
-          <div class="skills-visual-wrap" aria-label="Skill logos">
-            <div class="skills-visual-track">
-              <img src="/img/skills/python.png" alt="Python" loading="lazy" />
-              <img
-                src="/img/skills/spark.png"
-                alt="Apache Spark"
-                loading="lazy"
-              />
-              <img src="/img/skills/mysql.png" alt="MySQL" loading="lazy" />
-              <img src="/img/skills/dremio.png" alt="Dremio" loading="lazy" />
-              <img
-                src="/img/skills/redshift.png"
-                alt="Amazon Redshift"
-                loading="lazy"
-              />
-              <img src="/img/skills/flask.png" alt="Flask" loading="lazy" />
-              <img src="/img/skills/react.png" alt="React" loading="lazy" />
-              <img src="/img/skills/git.png" alt="Git" loading="lazy" />
-              <img src="/img/skills/ubuntu.png" alt="Ubuntu" loading="lazy" />
+  <!-- EXPERIENCE -->
+  <section class="band" id="xp">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Experience</h2><span class="kick"><span class="slash">//</span> where I have worked</span>
+      </div>
+      <div class="tl reveal">
+        {
+          experience.map((e) => (
+            <div class="tl-item">
+              <div class="tl-card">
+                <div class="tl-when">
+                  <span>{e.when}</span>
+                  {e.badge && <span class="badge">{e.badge}</span>}
+                </div>
+                <div class="tl-headrow">
+                  <h3>{e.role}</h3>
+                  <span class="tl-loc">
+                    <i class="fa-solid fa-location-dot"></i> {e.location}
+                  </span>
+                </div>
+                <div class="co">{e.company}</div>
+                <div class="tl-collapse">
+                  <ul class="tl-list">
+                    {e.bullets.map((b) => <li>{b}</li>)}
+                  </ul>
+                  <div class="stack">{e.stack.map((s) => <span>{s}</span>)}</div>
+                </div>
+                <button class="tl-toggle" type="button" aria-expanded="false">
+                  <span class="more-label">Show more</span>
+                  <span class="less-label">Show less</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+              </div>
             </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS (glassy side-scroller) -->
+  <section class="band" id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Projects</h2><span class="kick"><span class="slash">//</span> swipe through the work</span>
+      </div>
+    </div>
+    <div class="pcf-stage reveal" id="pcf">
+      {
+        showcase.map((p, i) => (
+          <article class={p.img ? "pcf-card" : "pcf-card no-media"} data-i={i}>
+            {p.img && (
+              <div class="ps-media">
+                <img src={p.img} alt={p.title} loading="lazy" />
+              </div>
+            )}
+            <div class="ps-body">
+              <div class="ps-head">
+                <div class="ps-count">
+                  <b>{String(i + 1).padStart(2, "0")}</b> / {String(showcase.length).padStart(2, "0")}
+                </div>
+                <div class="ps-top">
+                  {p.badge && <span class="badge">{p.badge}</span>}
+                  <span class="ps-yr">{p.year}</span>
+                </div>
+              </div>
+              <h3>{p.title}</h3>
+              <p>{p.blurb}</p>
+              <div class="ps-stack">{p.stack.map((s) => <span>{s}</span>)}</div>
+              <div class="ps-links">
+                <a class="ps-link" href={p.href}>
+                  <i class="fa-solid fa-arrow-right"></i> Details
+                </a>
+                {p.repo && (
+                  <a class="ps-link" href={p.repo} target="_blank" rel="noopener">
+                    <i class="fa-brands fa-github"></i> Source
+                  </a>
+                )}
+                {p.live && (
+                  <a class="ps-link" href={p.live} target="_blank" rel="noopener">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Live
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+      <button class="pcf-arrow left" id="psPrev" aria-label="Previous project"></button>
+      <button class="pcf-arrow right" id="psNext" aria-label="Next project"></button>
+    </div>
+    <div class="wrap">
+      <div class="pshow-nav reveal">
+        <a class="more-btn" href="/projects">All projects <span class="a">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTICIPATIONS -->
+  <section class="band" id="participations">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Participations</h2><span class="kick"><span class="slash">//</span> hackathons &amp; programs</span>
+      </div>
+      <div class="parts reveal">
+        {
+          participations.map((p) => (
+            <div class="part">
+              <div class="part-top">
+                <span class="badge">{p.badge}</span>
+                <span class="part-yr">{p.year}</span>
+              </div>
+              <h3>{p.title}</h3>
+              <div class="part-ev">{p.event}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    showContributions && (
+      <section class="band" id="github">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <h2>Contributions</h2><span class="kick"><span class="slash">//</span> github activity</span>
+          </div>
+          <div class="gh-wrap reveal">
+            <div class="gh-top">
+              <div class="t"><span class="live"></span> Contributions</div>
+              <a class="h" href={social.github} target="_blank" rel="noopener">@ShreyNiraula · last 12 months</a>
+            </div>
+            <div class="gh-grid" id="ghGrid"></div>
+            <div class="gh-legend">
+              Less
+              <span class="sw" style="background:#13203a"></span>
+              <span class="sw" style="background:#0e5a4a"></span>
+              <span class="sw" style="background:#1c8f6f"></span>
+              <span class="sw" style="background:#28c98f"></span>
+              <span class="sw" style="background:#34e0a1"></span>
+              More
+            </div>
+            <div class="gh-stats">
+              <div class="s"><div class="n" id="ghTotal">—</div><div class="l">Contributions</div></div>
+              <div class="s"><div class="n" id="ghStreak">—</div><div class="l">Longest streak</div></div>
+              <div class="s"><div class="n" id="ghBest">—</div><div class="l">Best day</div></div>
+            </div>
+            <p class="gh-note" id="ghNote">// Loading live contributions from GitHub…</p>
           </div>
         </div>
-        <div class="col-lg-5">
-          <p class="home-label home-label-dark">Skills</p>
-          <h2 class="home-band-title home-band-title-dark">
-            Scalable data and AI engineering toolkit
-          </h2>
-          <p class="home-band-copy home-band-copy-dark">
-            End-to-end experience across data platforms, pipeline engineering,
-            AI-powered automation, and reliable cloud delivery.
-          </p>
-          <div class="legacy-skill-tags skills-tag-cloud">
-            <span>Python</span>
-            <span>Apache Spark</span>
-            <span>SQL</span>
-            <span>Dremio</span>
-            <span>Redshift</span>
-            <span>Flask</span>
-            <span>React</span>
-            <span>Git</span>
-            <span>Linux</span>
-            <span>Airflow</span>
-            <span>ETL / ELT</span>
-            <span>Data Modeling</span>
-            <span>Big Data</span>
-            <span>AWS</span>
-            <span>Agentic AI</span>
-            <span>Automation</span>
-          </div>
+      </section>
+    )
+  }
+
+  <!-- CONTACT -->
+  <section class="band" id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Contact</h2><span class="kick"><span class="slash">//</span> open to work and good conversations</span>
+      </div>
+      <div class="contact reveal">
+        <div class="find">
+          <a href={social.email}><span class="ic"><i class="fa-solid fa-envelope"></i></span><span class="plat">Email</span><span class="hand">nshrey53@gmail.com</span></a>
+          <a href={social.github} target="_blank" rel="noopener"><span class="ic"><i class="fa-brands fa-github"></i></span><span class="plat">GitHub</span><span class="hand">/ShreyNiraula</span></a>
+          <a href={social.linkedin} target="_blank" rel="noopener"><span class="ic"><i class="fa-brands fa-linkedin-in"></i></span><span class="plat">LinkedIn</span><span class="hand">/in/shrey-niraula-27947b189/</span></a>
+          <a href={social.website} target="_blank" rel="noopener"><span class="ic"><i class="fa-solid fa-globe"></i></span><span class="plat">Website</span><span class="hand">shreyniraula.com.np</span></a>
+          <a href={resume} target="_blank" rel="noopener"><span class="ic"><i class="fa-solid fa-id-badge"></i></span><span class="plat">Resume</span></a>
         </div>
+        <form class="form" id="contactForm">
+          <div class="field"><label>your name <span class="star">*</span></label><input id="cfName" placeholder="Jane Doe" required /></div>
+          <div class="field"><label>your email <span class="star">*</span></label><input id="cfEmail" type="email" placeholder="jane@company.com" required /></div>
+          <div class="field"><label>message <span class="star">*</span></label><textarea id="cfMsg" rows="3" placeholder="Let's build something." required></textarea></div>
+          <button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send message</button>
+        </form>
       </div>
     </div>
   </section>
 
-  <section id="my-projects" class="home-band home-band-dark">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-7 order-lg-1">
-          <p class="home-label">Projects</p>
-          <h2 class="home-band-title">Selected engineering projects</h2>
-          <p class="home-band-copy">
-            Visual SLAM, traffic systems, assistive concepts, and applied data
-            projects with details on implementation.
-          </p>
-        </div>
-        <div class="col-lg-5 order-lg-2 text-lg-right mt-4 mt-lg-0">
-          <a class="home-band-link" href="/projects">Go to Projects</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script is:inline>
+    // 3D coverflow: active card centered/opaque, neighbors tilted back on a circle
+    (function () {
+      const stage = document.getElementById("pcf");
+      if (!stage) return;
+      const cards = Array.from(stage.querySelectorAll(".pcf-card"));
+      const n = cards.length;
+      if (!n) return;
+      let active = 0;
+      const place = () => {
+        cards.forEach((card, i) => {
+          let rel = i - active;
+          if (rel > n / 2) rel -= n;
+          if (rel < -n / 2) rel += n;
+          const abs = Math.abs(rel);
+          const sign = Math.sign(rel);
+          let tx = 0,
+            ry = 0,
+            tz = 0,
+            sc = 1,
+            op = 1,
+            z = 30;
+          if (abs === 1) {
+            tx = sign * 60;
+            ry = -sign * 40;
+            tz = -180;
+            sc = 0.8;
+            op = 0.4;
+            z = 20;
+          } else if (abs >= 2) {
+            tx = sign * 82;
+            ry = -sign * 48;
+            tz = -320;
+            sc = 0.66;
+            op = 0;
+            z = 10;
+          }
+          card.style.transform =
+            "translate(-50%,-50%) translateX(" + tx + "%) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+          card.style.opacity = op;
+          card.style.zIndex = z;
+          card.classList.toggle("is-center", abs === 0);
+          card.setAttribute("aria-hidden", abs === 0 ? "false" : "true");
+        });
+      };
+      place();
+      const go = (dir) => {
+        active = (active + dir + n) % n;
+        place();
+      };
+      const next = document.getElementById("psNext");
+      const prev = document.getElementById("psPrev");
+      if (next) next.addEventListener("click", () => go(1));
+      if (prev) prev.addEventListener("click", () => go(-1));
+      // click a side card to bring it to center (and don't follow its links)
+      cards.forEach((card, i) =>
+        card.addEventListener("click", (e) => {
+          if (i === active) return;
+          e.preventDefault();
+          active = i;
+          place();
+        })
+      );
+      // touch swipe
+      let sx = null;
+      stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener("touchend", (e) => {
+        if (sx === null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+        sx = null;
+      }, { passive: true });
+    })();
 
-  <section id="my-experience" class="home-band home-band-light">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-5 order-lg-2 text-lg-right mb-4 mb-lg-0">
-          <a class="home-band-link home-band-link-dark" href="/experience"
-            >Go to Work Experience</a
-          >
-        </div>
-        <div class="col-lg-7 order-lg-1">
-          <p class="home-label home-label-dark">Work</p>
-          <h2 class="home-band-title home-band-title-dark">
-            Timeline of roles and impact
-          </h2>
-          <p class="home-band-copy home-band-copy-dark">
-            A focused timeline of data engineering work, systems improvements,
-            and production delivery.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    // live GitHub contributions (only present when the section is shown)
+    (async function () {
+      const grid = document.getElementById("ghGrid");
+      if (!grid) return;
+      const note = document.getElementById("ghNote");
+      const user = "ShreyNiraula";
+      const colors = ["#13203a", "#0e5a4a", "#1c8f6f", "#28c98f", "#34e0a1"];
+      const setText = (id, v) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = v;
+      };
+      try {
+        const res = await fetch(
+          "https://github-contributions-api.jogruber.de/v4/" + user + "?y=last"
+        );
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const days = data.contributions || [];
+        if (!days.length) throw new Error("no contribution data");
+        grid.innerHTML = "";
+        const pad = new Date(days[0].date + "T00:00:00").getDay();
+        for (let i = 0; i < pad; i++) {
+          const c = document.createElement("div");
+          c.className = "gh-cell pad";
+          grid.appendChild(c);
+        }
+        let total = 0,
+          bestDay = 0,
+          run = 0,
+          longest = 0;
+        days.forEach((d) => {
+          const cell = document.createElement("div");
+          cell.className = "gh-cell";
+          cell.style.background = colors[d.level] || colors[0];
+          cell.title =
+            d.count + " contribution" + (d.count === 1 ? "" : "s") + " on " + d.date;
+          grid.appendChild(cell);
+          total += d.count;
+          bestDay = Math.max(bestDay, d.count);
+          run = d.count > 0 ? run + 1 : 0;
+          longest = Math.max(longest, run);
+        });
+        setText("ghTotal", total.toLocaleString());
+        setText("ghStreak", longest + (longest === 1 ? " day" : " days"));
+        setText("ghBest", String(bestDay));
+        if (note) note.remove();
+      } catch (e) {
+        if (note)
+          note.textContent =
+            "// Live GitHub contributions are unavailable right now. Try refreshing.";
+      }
+    })();
 
-  <section id="my-connect" class="home-band home-band-dark">
-    <div class="container text-center">
-      <p class="home-label">Let us connect</p>
-      <h2 class="home-band-title">
-        Reach out if you want to talk data, automation, or ideas
-      </h2>
-      <div class="home-connect-links">
-        <a href="mailto:nshrey53@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/shrey-niraula-27947b189/"
-          >LinkedIn</a
-        >
-        <a href="https://github.com/ShreyNiraula">GitHub</a>
-      </div>
-    </div>
-  </section>
+    // contact form opens a prefilled email
+    const form = document.getElementById("contactForm");
+    if (form) {
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const name = document.getElementById("cfName").value || "";
+        const email = document.getElementById("cfEmail").value || "";
+        const msg = document.getElementById("cfMsg").value || "";
+        const body = encodeURIComponent(msg + "\n\n— " + name + " (" + email + ")");
+        const subject = encodeURIComponent("Portfolio inquiry from " + name);
+        window.location.href =
+          "mailto:nshrey53@gmail.com?subject=" + subject + "&body=" + body;
+      });
+    }
 
-  <section id="my-participations" class="home-band home-band-light">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-7 order-lg-1">
-          <p class="home-label home-label-dark">Participations</p>
-          <h2 class="home-band-title home-band-title-dark">
-            Hackathons, programs, and community work
-          </h2>
-          <p class="home-band-copy home-band-copy-dark">
-            A selection of participation certificates and event-based learning
-            experiences.
-          </p>
-        </div>
-        <div class="col-lg-5 order-lg-2 text-lg-right mt-4 mt-lg-0">
-          <a class="home-band-link home-band-link-dark" href="/participations"
-            >Go to Participations</a
-          >
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    // experience: click to expand/collapse bullets (smooth, measured height)
+    document.querySelectorAll(".tl-toggle").forEach((btn) => {
+      const item = btn.closest(".tl-item");
+      if (!item) return;
+      const region = item.querySelector(".tl-collapse");
+      btn.addEventListener("click", () => {
+        const open = item.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        if (region) region.style.maxHeight = open ? region.scrollHeight + "px" : "40px";
+      });
+    });
+  </script>
+</SiteLayout>

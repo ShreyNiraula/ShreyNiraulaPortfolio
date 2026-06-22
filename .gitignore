@@ -13,3 +13,7 @@ dist
 
 # OS artifacts
 .DS_Store
+
+# Local-only (not used by the deployed site, never push)
+skills/
+CLAUDE.md

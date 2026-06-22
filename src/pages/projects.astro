@@ -1,29 +1,81 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import { projects } from "../data/projects";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { projects, type Project } from "../data/projects";
+
+const liveOf = (p: Project): string =>
+  p.links?.find((l) => /site|website|live|demo/i.test(l.label))?.href || "";
+const badgeOf = (p: Project): string => {
+  const s = (p.subtitle || "").toLowerCase();
+  if (s.includes("winner")) return "Winner";
+  if (s.includes("final year")) return "Final Year";
+  if (s.includes("thesis")) return "Thesis";
+  return "";
+};
+const codeOf = (p: Project): string => "{ " + p.slug.replace(/-/g, "_") + " }";
+
+const visibleProjects = projects.filter((p) => !p.hidden);
 ---
 
-<BaseLayout
+<SiteLayout
   title="Projects | Shrey Niraula"
   description="Selected engineering and data projects across robotics, simulation, web, and hackathon builds."
   path="/projects"
-  extraStyles={["/css/projects_timeline.css"]}
 >
-  <section class="my-projects py-5">
-    <div class="container">
-      <div class="row">
-        <div class="my-projects-title col-lg-12 text-center">
-          <h3 class="text-uppercase title-text">Projects</h3>
-        </div>
-      </div>
-      <div class="row">
-        {projects.map((project) => (
-          <div class="col-md-6 mb-4">
-            <ProjectCard project={project} />
-          </div>
-        ))}
+  <section class="page-head">
+    <div class="wrap">
+      <span class="kick"><span class="slash">//</span> selected work</span>
+      <h1>Projects</h1>
+      <p class="lede">
+        Robotics, simulation, applied data, and hackathon builds. Each one links
+        to a deeper write-up with background, features, and outcomes.
+      </p>
+    </div>
+  </section>
+
+  <section class="band" style="border-top:none;padding-top:40px;">
+    <div class="wrap">
+      <div class="proj-grid reveal">
+        {
+          visibleProjects.map((p) => {
+            const img = p.images?.[0];
+            const badge = badgeOf(p);
+            const live = liveOf(p);
+            return (
+              <article class="proj-card">
+                {img ? (
+                  <a class="thumb" href={p.href}>
+                    <img src={img} alt={p.title} loading="lazy" />
+                  </a>
+                ) : (
+                  <a class="thumb noimg" href={p.href}><span>{codeOf(p)}</span></a>
+                )}
+                <div class="pc-body">
+                  <div class="pc-top">
+                    <span class="pc-yr">{p.year}</span>
+                    {badge && <span class="badge">{badge}</span>}
+                  </div>
+                  <h3>{p.title}</h3>
+                  <p>{p.details || p.summary}</p>
+                  <div class="pc-stack">{p.stack.map((s) => <span>{s}</span>)}</div>
+                </div>
+                <div class="pc-links">
+                  <a href={p.href}><i class="fa-solid fa-arrow-right"></i> Details</a>
+                  {p.repo && (
+                    <a href={p.repo} target="_blank" rel="noopener">
+                      <i class="fa-brands fa-github"></i> Source
+                    </a>
+                  )}
+                  {live && (
+                    <a href={live} target="_blank" rel="noopener">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i> Live
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })
+        }
       </div>
     </div>
   </section>
-</BaseLayout>
+</SiteLayout>
