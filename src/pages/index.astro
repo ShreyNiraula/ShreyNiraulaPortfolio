@@ -70,12 +70,12 @@ const experience = [
     company: "NASA IMPACT (CSDA Program)",
     location: "Huntsville, AL, USA",
     bullets: [
-      "Migrated Airbus and BlackSky ingestion workflows into centralized Airflow pipelines with partitioned storage and STAC item generation.",
-      "Built Pytest and validation workflows to enforce data and transformation correctness.",
-      "Automated MAXAR checksum verification through Airflow, DynamoDB and Athena, eliminating manual validation overhead.",
-      "Modernized and optimized legacy DAGs to reduce pipeline runtime and improve reliability."
+      "Architected an Agentic Cloud Decision Framework using self-hosted LLMs (Ollama) for tool-augmented reasoning over petabyte-scale storage inventories, with a code-interpreter agent that automates multi-tier storage recommendations between MCP and NGAP and Human-in-the-Loop (HITL) checkpoints for final governance.",
+      "Migrated legacy vendor ingestion workflows (Airbus and BlackSky) into a partitioned Airflow pipeline using PySTAC for metadata standardization, ensuring end-to-end reliability through integrated Pytest validation suites for expansion logic and transformations.",
+      "Automated the manual MAXAR checksum verification workflow with an Airflow-orchestrated solution that exports metadata from DynamoDB and detects missing checksums via Athena, eliminating 100 percent of manual validation effort.",
+      "Migrated legacy Airflow DAGs to modern standards and optimized key workflows, reducing pipeline runtime."
     ],
-    stack: ["Python", "Apache Airflow", "PySTAC", "AWS DynamoDB", "AWS Athena", "STAC"]
+    stack: ["Apache Airflow", "AWS (Athena, DynamoDB, S3, Glue)", "PySTAC", "Metadata mapping", "Pytest"]
   },
   {
     when: "May 2022 to Jul 2024",
@@ -84,13 +84,14 @@ const experience = [
     company: "GrowByData Services",
     location: "Lalitpur, Nepal",
     bullets: [
-      "Owned end-to-end POC to reporting pipelines for LeadGen and Amazon data sources.",
-      "Re-architected social and SEO ingestion pipelines for multithreaded acquisition with 2 to 5 times performance gains.",
-      "Migrated a Redshift-heavy architecture to a lakehouse model and reduced compute costs by over 2 times.",
-      "Optimized reporting latency with materialized views and Redis cache integration.",
-      "Mentored junior engineers and interns on ETL design, dimensional modeling, and data platform fundamentals."
+      "Owned end-to-end integration from POC, acquisition and ETL to reporting backend logic for LeadGen and Amazon data sources.",
+      "Re-architected and scaled Pinterest, Facebook, TikTok, SEO, Google Ads, Bing Ads, and Shopify ingestion pipelines using multithreading and memory optimization, achieving 2 to 5 times faster acquisition speeds.",
+      "Migrated a monolithic Redshift architecture into a lakehouse-based system (S3, Glue Catalog, Dremio), reducing compute cost by over 2 times and eliminating CPU bottlenecks.",
+      "Refactored data anonymization logic using Python decorators, cutting demo report development time across 100+ reports from 3 months to 2 weeks.",
+      "Integrated Redis caching into the reporting layer, reducing query latency by around 70 percent.",
+      "Mentored junior engineers and trained interns in Python, SQL, Spark ETL, dimensional modeling, and lakehouse architecture."
     ],
-    stack: ["Python", "Spark", "AWS S3", "Glue Catalog", "Dremio", "Redis", "SQL"]
+    stack: ["Lakehouse", "Datalake", "EMR", "Glue", "Crawler", "Redis", "Optimization", "ETL Orchestration", "Dremio"]
   },
   {
     when: "May 2021 to May 2022",
@@ -99,12 +100,12 @@ const experience = [
     company: "GrowByData Services",
     location: "Lalitpur, Nepal",
     bullets: [
-      "Built the first production Pinterest Ads acquisition pipeline with OAuth2 integration.",
-      "Stabilized Facebook Ads ingestion under throttle constraints.",
-      "Resolved ETL production issues while building depth in star-schema and SCD modeling.",
-      "Migrated Talend flows to distributed Spark, reducing ETL latency and Redshift CPU load significantly."
+      "Built the first production acquisition pipeline for Pinterest Ads with OAuth2 authentication.",
+      "Scaled existing Facebook Ads acquisition to handle the throttle-limit issue, ensuring stable acquisition.",
+      "Resolved a production issue in ETL pipelines, gaining hands-on experience with star-schema modeling and Slowly Changing Dimension (SCD).",
+      "Migrated Talend ETLs into distributed Spark (Scala and SparkSQL), cutting Redshift CPU load by 2 to 3 times and reducing ETL latency by around 3 times."
     ],
-    stack: ["Python", "Scala", "SparkSQL", "Redshift", "OAuth2"]
+    stack: ["Data Warehousing", "Data Modeling", "Talend", "PySpark", "Scala", "SparkSQL", "Redshift", "Star-Schema Design", "OAuth2"]
   }
 ];
 
@@ -113,7 +114,7 @@ type SkillChip = { t: string; img?: string; i?: string; gen?: boolean; white?: b
 const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[] = [
   {
     cat: "lang",
-    name: "Languages",
+    name: "Programming Languages",
     sub: "core",
     chips: [
       { img: "/img/skills/python.png", t: "Python" },
@@ -127,7 +128,7 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
     sub: "platforms",
     chips: [
       { i: "devicon-amazonwebservices-plain-wordmark colored", t: "AWS (EC2, S3, Lambda)" },
-      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "Athena · Glue · EMR" },
+      { i: "devicon-amazonwebservices-plain-wordmark colored", t: "Athena · Glue · DynamoDB · EMR · MSK" },
       { img: "/img/skills/spark.png", t: "Spark" },
       { i: "devicon-apacheairflow-plain colored", t: "Apache Airflow" }
     ]
@@ -151,13 +152,32 @@ const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[
     sub: "craft",
     chips: [
       { img: "/img/skills/flask.png", t: "Flask", white: true },
-      { img: "/img/skills/react.png", t: "React" },
       { i: "devicon-docker-plain colored", t: "Docker" },
+      { i: "devicon-rabbitmq-original colored", t: "RabbitMQ" },
       { img: "/img/skills/git.png", t: "Git" },
-      { img: "/img/skills/ubuntu.png", t: "Linux" },
       { i: "devicon-terraform-plain colored", t: "Terraform" },
+      { img: "/img/skills/rest.png", t: "RESTful APIs", white: true },
+      { img: "/img/skills/react.png", t: "React" },
+      { img: "/img/skills/ubuntu.png", t: "Linux" },
       { gen: true, t: "CI/CD" },
-      { img: "/img/skills/rest.png", t: "REST APIs", white: true }
+      { gen: true, t: "OOP" },
+      { gen: true, t: "Multithreading" },
+      { gen: true, t: "Distributed Systems" }
+    ]
+  },
+  {
+    cat: "concepts",
+    name: "Data Concepts",
+    sub: "foundations",
+    chips: [
+      { gen: true, t: "Data Lake" },
+      { gen: true, t: "Data Warehousing" },
+      { gen: true, t: "Data Modeling" },
+      { gen: true, t: "SCD" },
+      { gen: true, t: "Data Orchestration" },
+      { gen: true, t: "Data Governance" },
+      { gen: true, t: "ETL / ELT" },
+      { gen: true, t: "OLAP" }
     ]
   },
   {
@@ -214,9 +234,9 @@ const social = {
         <span class="fill">DATA</span><br /><span class="ghost">ENGINEER</span>
       </h1>
       <p class="lede">
-        I build Earth-scale data pipelines and <b>agentic AI systems</b>.
-        Currently at NASA IMPACT, turning petabyte-scale storage into
-        LLM-driven automation.
+        I am an <b>AI and Data enthusiast</b> building Earth-scale data
+        pipelines and agentic AI systems. Currently at NASA IMPACT, with
+        working knowledge across business and satellite data.
       </p>
       <div class="cta-row">
         <a class="btn primary" href={resume} target="_blank" rel="noopener">
@@ -252,9 +272,9 @@ const social = {
           </p>
           <p>
             I studied <b>Electronics and Communication Engineering</b> at
-            Pulchowk Campus in Nepal, graduating in the top 1 percent, and I am
-            now finishing a <b>Master's in Computer Science</b> at UAH with a
-            4.0 GPA and a thesis on agentic LLM systems for NASA cloud storage.
+            Pulchowk Campus in Nepal, graduating in the top 1 percent, and I
+            recently completed my <b>Master's in Computer Science</b> at UAH with
+            a 4.0 GPA and a thesis on agentic LLM systems for NASA cloud storage.
           </p>
           <p>
             Away from the terminal you will find me deep in films, anime, music
@@ -447,9 +467,9 @@ const social = {
               More
             </div>
             <div class="gh-stats">
-              <div class="s"><div class="n" id="ghTotal">—</div><div class="l">Contributions</div></div>
-              <div class="s"><div class="n" id="ghStreak">—</div><div class="l">Longest streak</div></div>
-              <div class="s"><div class="n" id="ghBest">—</div><div class="l">Best day</div></div>
+              <div class="s"><div class="n" id="ghTotal">-</div><div class="l">Contributions</div></div>
+              <div class="s"><div class="n" id="ghStreak">-</div><div class="l">Longest streak</div></div>
+              <div class="s"><div class="n" id="ghBest">-</div><div class="l">Best day</div></div>
             </div>
             <p class="gh-note" id="ghNote">// Loading live contributions from GitHub…</p>
           </div>
@@ -617,7 +637,7 @@ const social = {
         const name = document.getElementById("cfName").value || "";
         const email = document.getElementById("cfEmail").value || "";
         const msg = document.getElementById("cfMsg").value || "";
-        const body = encodeURIComponent(msg + "\n\n— " + name + " (" + email + ")");
+        const body = encodeURIComponent(msg + "\n\n-- " + name + " (" + email + ")");
         const subject = encodeURIComponent("Portfolio inquiry from " + name);
         window.location.href =
           "mailto:nshrey53@gmail.com?subject=" + subject + "&body=" + body;
