@@ -109,7 +109,8 @@ const experience = [
 ];
 
 // ---- Skills (real logo PNGs where available, Devicon otherwise) ----
-const skillCats = [
+type SkillChip = { t: string; img?: string; i?: string; gen?: boolean; white?: boolean };
+const skillCats: { cat: string; name: string; sub: string; chips: SkillChip[] }[] = [
   {
     cat: "lang",
     name: "Languages",
@@ -139,7 +140,7 @@ const skillCats = [
       { img: "/img/skills/mysql.png", t: "MySQL" },
       { img: "/img/skills/redshift.png", t: "Redshift" },
       { img: "/img/skills/dremio.png", t: "Dremio" },
-      { gen: true, t: "Iceberg" },
+      { img: "/img/skills/iceberg.svg", t: "Iceberg", white: true },
       { i: "devicon-postgresql-plain colored", t: "Postgres" },
       { i: "devicon-redis-plain colored", t: "Redis" }
     ]
@@ -149,14 +150,14 @@ const skillCats = [
     name: "Software Engineering",
     sub: "craft",
     chips: [
-      { img: "/img/skills/flask.png", t: "Flask" },
+      { img: "/img/skills/flask.png", t: "Flask", white: true },
       { img: "/img/skills/react.png", t: "React" },
       { i: "devicon-docker-plain colored", t: "Docker" },
       { img: "/img/skills/git.png", t: "Git" },
       { img: "/img/skills/ubuntu.png", t: "Linux" },
       { i: "devicon-terraform-plain colored", t: "Terraform" },
       { gen: true, t: "CI/CD" },
-      { gen: true, t: "REST APIs" }
+      { img: "/img/skills/rest.png", t: "REST APIs", white: true }
     ]
   },
   {
@@ -164,7 +165,7 @@ const skillCats = [
     name: "AI / ML",
     sub: "focus",
     chips: [
-      { gen: true, t: "Local LLMs" },
+      { img: "/img/skills/ollama.png", t: "Ollama", white: true },
       { gen: true, t: "LangGraph" },
       { gen: true, t: "RAG" },
       { gen: true, t: "Prompt Engineering" },
@@ -176,8 +177,8 @@ const skillCats = [
     name: "Data Science",
     sub: "analysis",
     chips: [
-      { i: "devicon-pandas-original colored", t: "Pandas" },
-      { i: "devicon-numpy-original colored", t: "NumPy" },
+      { img: "/img/skills/pandas.png", t: "Pandas", white: true },
+      { img: "/img/skills/numpy.png", t: "NumPy", white: true },
       { i: "devicon-matplotlib-plain colored", t: "Matplotlib" },
       { gen: true, t: "Statistical Modeling" }
     ]
@@ -241,7 +242,7 @@ const social = {
       </div>
       <div class="about reveal">
         <div class="pic">
-          <img src="/img/landing/portrait-pixel-faded.png" alt="Shrey Niraula" />
+          <img src="/img/landing/me.png" alt="Shrey Niraula" />
         </div>
         <div>
           <p>
@@ -273,35 +274,25 @@ const social = {
   <section class="band" id="skills">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Skills</h2><span class="kick"><span class="slash">//</span> filter by area</span>
+        <h2>Skills</h2><span class="kick"><span class="slash">//</span> my stack</span>
       </div>
-      <div class="skill-filter reveal" id="skillFilter">
+      <div class="stack-list">
         {
           skillCats.map((c) => (
-            <label class="cb">
-              <input type="checkbox" data-cat={c.cat} checked />
-              <span class="box"></span>{c.name}
-            </label>
-          ))
-        }
-      </div>
-      <div class="reveal">
-        {
-          skillCats.map((c) => (
-            <div class="skill-cat" data-cat={c.cat}>
-              <div class="cn">{c.name}<span class="sub">{c.sub}</span></div>
-              <div class="chips">
+            <div class="stack-row reveal">
+              <div class="stack-cat">{c.name}</div>
+              <div class="stack-items">
                 {c.chips.map((ch) => (
-                  <span class="chip">
+                  <div class="sk">
                     {ch.img ? (
-                      <img class="chip-logo" src={ch.img} alt="" loading="lazy" />
+                      <img class={ch.white ? "sk-logo on-white" : "sk-logo"} src={ch.img} alt="" />
                     ) : ch.gen ? (
-                      <span class="gen"></span>
+                      <span class="sk-dot"></span>
                     ) : (
-                      <i class={ch.i}></i>
+                      <i class={ch.white ? ch.i + " on-white" : ch.i}></i>
                     )}
-                    {ch.t}
-                  </span>
+                    <span class="sk-name">{ch.t}</span>
+                  </div>
                 ))}
               </div>
             </div>
