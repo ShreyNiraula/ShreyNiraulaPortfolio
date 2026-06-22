@@ -10,15 +10,3 @@ export const participationSchema = z.object({
   badgeLabel: z.string().optional(),
   tags: z.array(z.string()).default([])
 });
-
-export const experienceSchema = z.object({
-  company: z.string(),
-  role: z.string(),
-  location: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  current: z.boolean().default(false),
-  employmentType: z.string().default("Full-time"),
-  stack: z.array(z.string()).default([]),
-  highlights: z.array(z.string()).default([])
-});

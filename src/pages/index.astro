@@ -1,25 +1,22 @@
 ---
 // Homepage built on the Shrey Niraula design system (v2 navy direction).
+// Section content is data-driven (see src/data/*); this file composes the page.
 import SiteLayout from "../layouts/SiteLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import { projects, type Project } from "../data/projects";
+import { site, social, heroStats } from "../data/site";
+import { experience } from "../data/experience";
+import { skillCats } from "../data/skills";
+import { participations } from "../data/participations";
+import { education } from "../data/education";
+import { certifications } from "../data/certifications";
+import { awards } from "../data/awards";
 
-const title = "Shrey Niraula | Data Engineer";
-const description =
-  "Data Engineer at NASA IMPACT (CSDA) building large-scale data pipelines and agentic AI systems.";
-const resume = "/Shrey_Niraula_AI_ML_Resume.pdf";
+const { title, description, resume } = site;
 
-// Toggle the GitHub contributions ("Contributions") section.
+// Toggle optional sections (kept in code, not rendered).
 const showContributions = false;
-// Toggle the Awards section (kept in code, not rendered).
 const showAwards = false;
-
-const heroStats = [
-  { n: "4+", l: "Years in data" },
-  { n: "Geospatial", l: "Satellite data" },
-  { n: "Business", l: "Analytics data" },
-  { n: "4.0", l: "MSc CS GPA" },
-  { n: "Top 1%", l: "Undergrad rank" },
-];
 
 // ---- Project showcase (glassy side-scroller) ----
 type Slide = {
@@ -70,367 +67,6 @@ const showcase: Slide[] = projects
     };
   });
 
-// ---- Experience (full bullets + stacks from content collection) ----
-const experience = [
-  {
-    when: "Aug 2024 to Present",
-    badge: "Current",
-    role: "Data Engineer",
-    company: "NASA IMPACT (CSDA Program)",
-    location: "Huntsville, AL, USA",
-    bullets: [
-      "Architected an Agentic Cloud Decision Framework using self-hosted LLMs (Ollama) for tool-augmented reasoning over petabyte-scale storage inventories, with a code-interpreter agent that automates multi-tier storage recommendations between MCP and NGAP and Human-in-the-Loop (HITL) checkpoints for final governance.",
-      "Migrated legacy vendor ingestion workflows (Airbus and BlackSky) into a partitioned Airflow pipeline using PySTAC for metadata standardization, ensuring end-to-end reliability through integrated Pytest validation suites for expansion logic and transformations.",
-      "Automated the manual MAXAR checksum verification workflow with an Airflow-orchestrated solution that exports metadata from DynamoDB and detects missing checksums via Athena, eliminating 100 percent of manual validation effort.",
-      "Migrated legacy Airflow DAGs to modern standards and optimized key workflows, reducing pipeline runtime.",
-    ],
-    stack: [
-      "Apache Airflow",
-      "AWS (Athena, DynamoDB, S3, Glue)",
-      "PySTAC",
-      "Metadata mapping",
-      "Pytest",
-    ],
-  },
-  {
-    when: "May 2022 to Jul 2024",
-    badge: "",
-    role: "Mid-Level Data Engineer",
-    company: "GrowByData Services",
-    location: "Lalitpur, Nepal",
-    bullets: [
-      "Owned end-to-end integration from POC, acquisition and ETL to reporting backend logic for LeadGen and Amazon data sources.",
-      "Re-architected and scaled Pinterest, Facebook, TikTok, SEO, Google Ads, Bing Ads, and Shopify ingestion pipelines using multithreading and memory optimization, achieving 2 to 5 times faster acquisition speeds.",
-      "Migrated a monolithic Redshift architecture into a lakehouse-based system (S3, Glue Catalog, Dremio), reducing compute cost by over 2 times and eliminating CPU bottlenecks.",
-      "Refactored data anonymization logic using Python decorators, cutting demo report development time across 100+ reports from 3 months to 2 weeks.",
-      "Integrated Redis caching into the reporting layer, reducing query latency by around 70 percent.",
-      "Mentored junior engineers and trained interns in Python, SQL, Spark ETL, dimensional modeling, and lakehouse architecture.",
-    ],
-    stack: [
-      "Lakehouse",
-      "Datalake",
-      "EMR",
-      "Glue",
-      "Crawler",
-      "Redis",
-      "Optimization",
-      "ETL Orchestration",
-      "Dremio",
-    ],
-  },
-  {
-    when: "May 2021 to May 2022",
-    badge: "",
-    role: "Associate Data Engineer",
-    company: "GrowByData Services",
-    location: "Lalitpur, Nepal",
-    bullets: [
-      "Built the first production acquisition pipeline for Pinterest Ads with OAuth2 authentication.",
-      "Scaled existing Facebook Ads acquisition to handle the throttle-limit issue, ensuring stable acquisition.",
-      "Resolved a production issue in ETL pipelines, gaining hands-on experience with star-schema modeling and Slowly Changing Dimension (SCD).",
-      "Migrated Talend ETLs into distributed Spark (Scala and SparkSQL), cutting Redshift CPU load by 2 to 3 times and reducing ETL latency by around 3 times.",
-    ],
-    stack: [
-      "Data Warehousing",
-      "Data Modeling",
-      "Talend",
-      "PySpark",
-      "Scala",
-      "SparkSQL",
-      "Redshift",
-      "Star-Schema Design",
-      "OAuth2",
-    ],
-  },
-];
-
-// ---- Skills (real logo PNGs where available, Devicon otherwise) ----
-type SkillChip = {
-  t: string;
-  img?: string;
-  i?: string;
-  gen?: boolean;
-  white?: boolean;
-};
-const skillCats: {
-  cat: string;
-  name: string;
-  sub: string;
-  chips: SkillChip[];
-}[] = [
-  {
-    cat: "lang",
-    name: "Programming Languages",
-    sub: "core",
-    chips: [
-      { img: "/img/skills/python.png", t: "Python" },
-      { i: "devicon-scala-plain colored", t: "Scala" },
-      { i: "devicon-azuresqldatabase-plain colored", t: "SQL" },
-    ],
-  },
-  {
-    cat: "cloud",
-    name: "Cloud & Big Data",
-    sub: "platforms",
-    chips: [
-      {
-        i: "devicon-amazonwebservices-plain-wordmark colored",
-        t: "AWS (EC2, S3, Lambda)",
-      },
-      {
-        i: "devicon-amazonwebservices-plain-wordmark colored",
-        t: "Athena · Glue · DynamoDB · EMR · MSK",
-      },
-      { img: "/img/skills/spark.png", t: "Spark" },
-      { i: "devicon-apacheairflow-plain colored", t: "Apache Airflow" },
-    ],
-  },
-  {
-    cat: "db",
-    name: "Databases & Caching",
-    sub: "storage",
-    chips: [
-      { img: "/img/skills/mysql.png", t: "MySQL" },
-      { img: "/img/skills/redshift.png", t: "Redshift" },
-      { img: "/img/skills/dremio.png", t: "Dremio" },
-      { img: "/img/skills/iceberg.svg", t: "Iceberg", white: true },
-      { i: "devicon-postgresql-plain colored", t: "Postgres" },
-      { i: "devicon-redis-plain colored", t: "Redis" },
-    ],
-  },
-  {
-    cat: "se",
-    name: "Software Engineering",
-    sub: "craft",
-    chips: [
-      { img: "/img/skills/flask.png", t: "Flask", white: true },
-      { i: "devicon-docker-plain colored", t: "Docker" },
-      { i: "devicon-rabbitmq-original colored", t: "RabbitMQ" },
-      { img: "/img/skills/git.png", t: "Git" },
-      { i: "devicon-terraform-plain colored", t: "Terraform" },
-      { img: "/img/skills/rest.png", t: "RESTful APIs", white: true },
-      { img: "/img/skills/react.png", t: "React" },
-      { img: "/img/skills/ubuntu.png", t: "Linux" },
-      { gen: true, t: "CI/CD" },
-      { gen: true, t: "OOP" },
-      { gen: true, t: "Multithreading" },
-      { gen: true, t: "Distributed Systems" },
-    ],
-  },
-  {
-    cat: "concepts",
-    name: "Data Concepts",
-    sub: "foundations",
-    chips: [
-      { gen: true, t: "Data Lake" },
-      { gen: true, t: "Data Warehousing" },
-      { gen: true, t: "Data Modeling" },
-      { gen: true, t: "SCD" },
-      { gen: true, t: "Data Orchestration" },
-      { gen: true, t: "Data Governance" },
-      { gen: true, t: "ETL / ELT" },
-      { gen: true, t: "OLAP" },
-    ],
-  },
-  {
-    cat: "ai",
-    name: "AI / ML",
-    sub: "focus",
-    chips: [
-      { img: "/img/skills/ollama.png", t: "Ollama", white: true },
-      { gen: true, t: "LangGraph" },
-      { gen: true, t: "RAG" },
-      { gen: true, t: "Prompt Engineering" },
-      { gen: true, t: "Vector Databases" },
-    ],
-  },
-  {
-    cat: "ds",
-    name: "Data Science",
-    sub: "analysis",
-    chips: [
-      { img: "/img/skills/pandas.png", t: "Pandas", white: true },
-      { img: "/img/skills/numpy.png", t: "NumPy", white: true },
-      { i: "devicon-matplotlib-plain colored", t: "Matplotlib" },
-      { gen: true, t: "Statistical Modeling" },
-    ],
-  },
-];
-
-// ---- Participations (from content collection) ----
-const participations = [
-  {
-    badge: "International Hackathon",
-    year: 2020,
-    title: "Quantum Hack",
-    event: "First International Digital Hackathon in Nepal",
-  },
-  {
-    badge: "AI Research",
-    year: 2019,
-    title: "Nepal Winter School in AI",
-    event: "AI-NAAMII Winter School, Pokhara",
-  },
-  {
-    badge: "Hardware Systems",
-    year: 2019,
-    title: "Hardware Project Competition",
-    event: "Locus Nepal",
-  },
-  {
-    badge: "Hackathon",
-    year: 2019,
-    title: "Everest Hack",
-    event: "Everest Hack Nepal",
-  },
-  {
-    badge: "Assistive Tech",
-    year: 2018,
-    title: "Disaster Hack",
-    event: "AT-Hackathon Nepal",
-  },
-  {
-    badge: "Innovation",
-    year: 2018,
-    title: "Locus 2018",
-    event: "Locus Nepal",
-  },
-];
-
-const education = [
-  {
-    school: "The University of Alabama in Huntsville",
-    degree: "Master's in Computer Science, Data Science Concentration",
-    location: "Huntsville, AL, USA",
-    when: "Aug 2024 to 2026",
-    score: "GPA 4.0",
-    subjects: [
-      "Advanced Database",
-      "Data Structures & Algorithms",
-      "Big Data Computing",
-      "Cloud Computing",
-      "Machine Learning",
-    ],
-    highlight:
-      "Thesis: Agentic Cloud Decision Framework, multi-agent local LLM orchestration and tool-augmented reasoning for large-scale NASA cloud storage.",
-  },
-  {
-    school: "Tribhuvan University, IOE, Pulchowk Campus",
-    degree: "Bachelor's in Electronics and Communication Engineering",
-    location: "Lalitpur, Nepal",
-    when: "2016 to 2021",
-    score: "81.70% (Rank 4th, top 1%)",
-    subjects: [
-      "Object Oriented Programming",
-      "Database",
-      "Artificial Intelligence",
-      "Data Mining",
-      "Linear Algebra",
-      "Computer Architecture",
-    ],
-    highlight:
-      "Ncell Excellence Cash Award (2019) for topping the consecutive 3rd and 4th semesters.",
-  },
-];
-
-type Cert = {
-  provider: string;
-  year: string;
-  title: string;
-  link?: string;
-  courses?: { t: string; link: string }[];
-};
-const certifications: Cert[] = [
-  {
-    provider: "JEES",
-    year: "Dec 2023",
-    title: "Japanese-Language Proficiency Test (JLPT) N2",
-    link: "https://www.jlpt.jp/",
-  },
-  {
-    provider: "Coursera",
-    year: "2020",
-    title: "Deep Learning Specialization",
-    link: "https://www.coursera.org/account/accomplishments/specialization/certificate/PA94WCBRK6UJ",
-    courses: [
-      {
-        t: "Neural Networks and Deep Learning",
-        link: "https://www.coursera.org/account/accomplishments/verify/JB7ZHFKK9M2W",
-      },
-      {
-        t: "Improving Deep Neural Networks",
-        link: "https://www.coursera.org/account/accomplishments/verify/YNEWS4FZ5VHK",
-      },
-      {
-        t: "Structuring Machine Learning Projects",
-        link: "https://www.coursera.org/account/accomplishments/certificate/32ZYFWK4XTYM",
-      },
-      { t: "Convolutional Neural Networks", link: "" },
-      {
-        t: "Sequence Models",
-        link: "https://www.coursera.org/account/accomplishments/certificate/HWPDZUCMNN9P",
-      },
-    ],
-  },
-  {
-    provider: "Coursera",
-    year: "Aug 2020",
-    title: "Front-End Web Development with React",
-    link: "https://www.coursera.org/account/accomplishments/certificate/7HN57LZZGHCL",
-  },
-  {
-    provider: "Coursera",
-    year: "Aug 2020",
-    title: "Server-side Development with NodeJS, Express and MongoDB",
-    link: "https://www.coursera.org/account/accomplishments/certificate/TMUX9EQM8QBZ",
-  },
-  {
-    provider: "Coursera",
-    year: "Jun 2020",
-    title: "SQL for Data Science",
-    link: "https://www.coursera.org/account/accomplishments/certificate/DY76D3TNVXT9",
-  },
-  {
-    provider: "Coursera",
-    year: "Jan 2020",
-    title: "Machine Learning (Andrew Ng)",
-    link: "https://www.coursera.org/account/accomplishments/verify/4NC4Z9XCRXZ8",
-  },
-  {
-    provider: "edX",
-    year: "Sep 2020",
-    title: "Applied Deep Learning Capstone Project (DL0320EN)",
-    link: "https://courses.edx.org/certificates/bb49ae64c3d945f49ad143d22399c184",
-  },
-];
-
-const awards = [
-  {
-    year: 2021,
-    title: "Ranking Certificate",
-    description:
-      "Ranked 4th among approximately 600+ Electronics and Communication Engineering students in Nepal.",
-  },
-  {
-    year: 2019,
-    title: "Ncell Scholarship & Excellence Award",
-    description:
-      "Awarded for topping two consecutive semesters (3rd and 4th) of second year at Pulchowk Campus.",
-  },
-  {
-    year: 2019,
-    title: "Winner, Hardware Thematic Competition",
-    description:
-      "Best project at Locus 2019 under the Hardware Thematic Category for Precision Livestock Farming.",
-  },
-];
-
-const social = {
-  email: "mailto:nshrey53@gmail.com",
-  github: "https://github.com/ShreyNiraula",
-  linkedin: "https://www.linkedin.com/in/shrey-niraula-27947b189/",
-  website: "https://shreyniraula.com.np",
-};
 ---
 
 <SiteLayout title={title} description={description} path="/">
@@ -472,11 +108,7 @@ const social = {
   <!-- ABOUT -->
   <section class="band" id="about">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>About Me</h2><span class="kick"
-          ><span class="slash">//</span> who I am</span
-        >
-      </div>
+      <SectionHeading title="About Me" kicker="who I am" />
       <div class="about reveal">
         <div class="pic">
           <img src="/img/landing/me.png" alt="Shrey Niraula" />
@@ -520,11 +152,7 @@ const social = {
   <!-- SKILLS -->
   <section class="band" id="skills">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Skills</h2><span class="kick"
-          ><span class="slash">//</span> my stack</span
-        >
-      </div>
+      <SectionHeading title="Skills" kicker="my stack" />
       <div class="stack-list">
         {
           skillCats.map((c) => (
@@ -558,11 +186,7 @@ const social = {
   <!-- EXPERIENCE -->
   <section class="band" id="xp">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Experience</h2><span class="kick"
-          ><span class="slash">//</span> where I have worked</span
-        >
-      </div>
+      <SectionHeading title="Experience" kicker="where I have worked" />
       <div class="tl reveal">
         {
           experience.map((e) => (
@@ -607,11 +231,7 @@ const social = {
   <!-- EDUCATION -->
   <section class="band" id="education">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Education</h2><span class="kick"
-          ><span class="slash">//</span> where I studied</span
-        >
-      </div>
+      <SectionHeading title="Education" kicker="where I studied" />
       <div class="edu-clean reveal">
         {
           education.map((e) => (
@@ -647,11 +267,7 @@ const social = {
   <!-- PROJECTS (glassy side-scroller) -->
   <section class="band" id="projects">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Projects</h2><span class="kick"
-          ><span class="slash">//</span> swipe through the work</span
-        >
-      </div>
+      <SectionHeading title="Projects" kicker="swipe through the work" />
     </div>
     <div class="pcf-stage reveal" id="pcf">
       {
@@ -726,11 +342,7 @@ const social = {
   <!-- PARTICIPATIONS -->
   <section class="band" id="participations">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Participations</h2><span class="kick"
-          ><span class="slash">//</span> hackathons &amp; programs</span
-        >
-      </div>
+      <SectionHeading title="Participations" kicker="hackathons & programs" />
       <div class="parts embed reveal">
         {
           participations.map((p) => (
@@ -753,9 +365,7 @@ const social = {
     showAwards && (
       <section class="band" id="awards">
         <div class="wrap">
-          <div class="sec-head reveal">
-            <h2>Awards</h2><span class="kick"><span class="slash">//</span> recognition</span>
-          </div>
+          <SectionHeading title="Awards" kicker="recognition" />
           <div class="parts embed reveal">
             {awards.map((a) => (
               <div class="part">
@@ -776,11 +386,7 @@ const social = {
   <!-- CERTIFICATIONS -->
   <section class="band" id="certifications">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Certifications</h2><span class="kick"
-          ><span class="slash">//</span> courses I completed</span
-        >
-      </div>
+      <SectionHeading title="Certifications" kicker="courses I completed" />
       <div class="parts embed reveal">
         {
           certifications.map((c) => (
@@ -889,11 +495,7 @@ const social = {
   <!-- CONTACT -->
   <section class="band" id="contact">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>Contacts</h2><span class="kick"
-          ><span class="slash">//</span> open to work and good conversations</span
-        >
-      </div>
+      <SectionHeading title="Contacts" kicker="open to work and good conversations" />
       <div class="contact reveal">
         <div class="find">
           <a href={social.email}
