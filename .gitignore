@@ -15,5 +15,6 @@ dist
 .DS_Store
 
 # Local-only (not used by the deployed site, never push)
-skills/
-CLAUDE.md
+# NOTE: anchored to repo root so it does NOT match public/img/skills/
+/skills/
+/CLAUDE.md
