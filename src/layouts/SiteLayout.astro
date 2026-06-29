@@ -232,9 +232,15 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .ps-links { display: flex; gap: 9px; flex-wrap: wrap; margin-top: auto; }
       .ps-link { font-family: var(--font-mono); font-size: 11px; color: var(--ink); border: 1px solid var(--line-2); border-radius: 999px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 7px; transition: 0.18s; }
       .ps-link:hover { border-color: var(--acc); color: var(--acc); transform: translateY(-2px); }
-      .pshow-nav { display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 24px; }
-      .ps-nav-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--card); color: var(--ink); font-size: 16px; cursor: pointer; transition: 0.18s; }
-      .ps-nav-btn:hover { border-color: var(--acc); color: var(--acc); transform: translateY(-2px); }
+      .pshow-nav { position: relative; display: flex; justify-content: center; align-items: center; margin-top: 26px; min-height: 46px; }
+      .ps-arrows { display: flex; gap: 30px; align-items: center; }
+      .pshow-nav .more-btn { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+      @media (max-width: 640px) { .pshow-nav { flex-direction: column; gap: 16px; } .pshow-nav .more-btn { position: static; transform: none; } }
+      .ps-chevron { position: relative; background: none; border: none; padding: 10px; cursor: pointer; color: var(--ink-3); transition: color 0.18s; display: flex; align-items: center; justify-content: center; }
+      .ps-chevron::before { content: ""; width: 20px; height: 20px; border-style: solid; border-color: currentColor; border-width: 0 6px 6px 0; }
+      .ps-chevron.left::before { transform: rotate(135deg); margin-left: 5px; }
+      .ps-chevron.right::before { transform: rotate(-45deg); margin-right: 5px; }
+      .ps-chevron:hover { color: var(--acc); }
 
       /* project grid (projects page) */
       .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }

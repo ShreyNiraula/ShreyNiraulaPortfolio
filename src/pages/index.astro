@@ -323,8 +323,10 @@ const showcase: Slide[] = projects
       }
       </div>
       <div class="pshow-nav reveal">
-        <button class="ps-nav-btn" id="psPrev" aria-label="Scroll left">&larr;</button>
-        <button class="ps-nav-btn" id="psNext" aria-label="Scroll right">&rarr;</button>
+        <div class="ps-arrows">
+          <button class="ps-chevron left" id="psPrev" aria-label="Previous projects"></button>
+          <button class="ps-chevron right" id="psNext" aria-label="Next projects"></button>
+        </div>
         <a class="more-btn" href="/projects">All projects <span class="a">&rarr;</span></a>
       </div>
     </div>
@@ -579,24 +581,50 @@ const showcase: Slide[] = projects
       tick();
     })();
 
-    // projects: horizontal scroll row with arrow controls
+    // projects: infinite looping scroll (cards wrap continuously, 05 -> 01 -> 02 ...)
     (function () {
       const sc = document.getElementById("pscroll");
       if (!sc) return;
-      const step = () => {
-        const card = sc.querySelector(".pcf-card");
-        return card ? card.getBoundingClientRect().width + 22 : sc.clientWidth * 0.7;
+      const originals = Array.from(sc.children);
+      const n = originals.length;
+      if (n < 3) return;
+      // clone one full set before and after so the row can scroll forever
+      [...originals].reverse().forEach((c) => sc.insertBefore(c.cloneNode(true), sc.firstChild));
+      originals.forEach((c) => sc.appendChild(c.cloneNode(true)));
+      const setW = () => sc.children[n].offsetLeft - sc.children[0].offsetLeft;
+      const stepW = () => originals[0].getBoundingClientRect().width + 22;
+      // start on the middle (real) set
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          sc.scrollLeft = setW();
+        }),
+      );
+      // recenter seamlessly after manual scrolling settles (identical content, no visible jump)
+      let t;
+      sc.addEventListener(
+        "scroll",
+        () => {
+          clearTimeout(t);
+          t = setTimeout(() => {
+            const w = setW();
+            if (sc.scrollLeft <= w * 0.5) sc.scrollLeft += w;
+            else if (sc.scrollLeft >= w * 1.5) sc.scrollLeft -= w;
+          }, 150);
+        },
+        { passive: true },
+      );
+      const go = (dir) => {
+        const w = setW();
+        const s = stepW();
+        // pre-emptively recenter so the smooth scroll never runs into a boundary
+        if (dir > 0 && sc.scrollLeft + s >= w * 1.5) sc.scrollLeft -= w;
+        if (dir < 0 && sc.scrollLeft - s <= w * 0.5) sc.scrollLeft += w;
+        sc.scrollBy({ left: dir * s, behavior: "smooth" });
       };
       const prev = document.getElementById("psPrev");
       const next = document.getElementById("psNext");
-      if (prev)
-        prev.addEventListener("click", () =>
-          sc.scrollBy({ left: -step(), behavior: "smooth" }),
-        );
-      if (next)
-        next.addEventListener("click", () =>
-          sc.scrollBy({ left: step(), behavior: "smooth" }),
-        );
+      if (prev) prev.addEventListener("click", () => go(-1));
+      if (next) next.addEventListener("click", () => go(1));
     })();
 
     // live GitHub contributions (only present when the section is shown)
