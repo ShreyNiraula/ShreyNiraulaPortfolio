@@ -11,8 +11,6 @@ const badgeOf = (p: Project): string => {
   if (s.includes("thesis")) return "Thesis";
   return "";
 };
-const codeOf = (p: Project): string => "{ " + p.slug.replace(/-/g, "_") + " }";
-
 const visibleProjects = projects.filter((p) => !p.hidden);
 ---
 
@@ -37,17 +35,15 @@ const visibleProjects = projects.filter((p) => !p.hidden);
       <div class="proj-grid reveal">
         {
           visibleProjects.map((p) => {
-            const img = p.images?.[0];
+            const img = p.cardImage ?? p.heroImage ?? p.images?.[0];
             const badge = badgeOf(p);
             const live = liveOf(p);
             return (
               <article class="proj-card">
-                {img ? (
+                {img && (
                   <a class="thumb" href={p.href}>
                     <img src={img} alt={p.title} loading="lazy" />
                   </a>
-                ) : (
-                  <a class="thumb noimg" href={p.href}><span>{codeOf(p)}</span></a>
                 )}
                 <div class="pc-body">
                   <div class="pc-top">
