@@ -13,7 +13,7 @@ export const education: EducationItem[] = [
     school: "The University of Alabama in Huntsville",
     degree: "Master's in Computer Science, Data Science Concentration",
     location: "Huntsville, AL, USA",
-    when: "Aug 2024 to 2026",
+    when: "Aug 2024 to Aug 2026",
     score: "GPA 4.0",
     subjects: [
       "Advanced Database",
@@ -29,7 +29,7 @@ export const education: EducationItem[] = [
     school: "Tribhuvan University, IOE, Pulchowk Campus",
     degree: "Bachelor's in Electronics and Communication Engineering",
     location: "Lalitpur, Nepal",
-    when: "2016 to 2021",
+    when: "Nov 2016 to Mar 2021",
     score: "81.70% (Rank 4th, top 1%)",
     subjects: [
       "Object Oriented Programming",

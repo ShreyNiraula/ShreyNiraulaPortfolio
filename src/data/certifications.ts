@@ -8,6 +8,11 @@ export type Certification = {
 
 export const certifications: Certification[] = [
   {
+    provider: "AWS",
+    year: "In Progress",
+    title: "AWS Certified Data Engineer - Associate (DEA-C01)"
+  },
+  {
     provider: "JEES",
     year: "Dec 2023",
     title: "Japanese-Language Proficiency Test (JLPT) N2",

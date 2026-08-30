@@ -3,7 +3,7 @@ export const site = {
   title: "Shrey Niraula | Data Engineer",
   description:
     "Data Engineer at NASA IMPACT (CSDA) building large-scale data pipelines and agentic AI systems.",
-  resume: "/Shrey_Niraula_AI_ML_Resume.pdf"
+  resume: "/resume.pdf"
 };
 
 export const social = {

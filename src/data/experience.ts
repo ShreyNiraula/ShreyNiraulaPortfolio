@@ -13,13 +13,13 @@ export const experience: ExperienceItem[] = [
     when: "Aug 2024 to Present",
     badge: "Current",
     role: "Data Engineer",
-    company: "NASA IMPACT (CSDA Program)",
+    company: "NASA ODSI (CSDA Program)",
     location: "Huntsville, AL, USA",
     bullets: [
-      "Architected an Agentic Cloud Decision Framework using self-hosted LLMs (Ollama) for tool-augmented reasoning over petabyte-scale storage inventories, with a code-interpreter agent that automates multi-tier storage recommendations between MCP and NGAP and Human-in-the-Loop (HITL) checkpoints for final governance.",
-      "Migrated legacy vendor ingestion workflows (Airbus and BlackSky) into a partitioned Airflow pipeline using PySTAC for metadata standardization, ensuring end-to-end reliability through integrated Pytest validation suites for expansion logic and transformations.",
-      "Automated the manual MAXAR checksum verification workflow with an Airflow-orchestrated solution that exports metadata from DynamoDB and detects missing checksums via Athena, eliminating 100 percent of manual validation effort.",
-      "Migrated legacy Airflow DAGs to modern standards and optimized key workflows, reducing pipeline runtime."
+      "Built and evaluated a multi-agent system on a local LLM that converts Amazon S3 inventory reports into auditable, cost-saving storage-migration plans, using verifier-driven retries for numerical accuracy; validated on petabyte-scale CSDA production buckets against a status-quo baseline.",
+      "Onboarded a new satellite vendor (Airbus DEM) end-to-end, building its ingestion and PySTAC-based STAC transformation from scratch.",
+      "Rebuilt legacy Airbus SAR and BlackSky ingestion into a centralized, partitioned Airflow pipeline, with Pytest suites validating ingestion logic.",
+      "Built an Airflow solution to automate the manual MAXAR vendor checksum-verification process, consolidating DynamoDB export and Athena checks into a single DAG."
     ],
     stack: [
       "Apache Airflow",
@@ -34,14 +34,15 @@ export const experience: ExperienceItem[] = [
     badge: "",
     role: "Mid-Level Data Engineer",
     company: "GrowByData Services",
-    location: "Lalitpur, Nepal",
+    location: "Kathmandu, Nepal · Hybrid (US-based stakeholders)",
     bullets: [
-      "Owned end-to-end integration from POC, acquisition and ETL to reporting backend logic for LeadGen and Amazon data sources.",
-      "Re-architected and scaled Pinterest, Facebook, TikTok, SEO, Google Ads, Bing Ads, and Shopify ingestion pipelines using multithreading and memory optimization, achieving 2 to 5 times faster acquisition speeds.",
-      "Migrated a monolithic Redshift architecture into a lakehouse-based system (S3, Glue Catalog, Dremio), reducing compute cost by over 2 times and eliminating CPU bottlenecks.",
-      "Refactored data anonymization logic using Python decorators, cutting demo report development time across 100+ reports from 3 months to 2 weeks.",
-      "Integrated Redis caching into the reporting layer, reducing query latency by around 70 percent.",
-      "Mentored junior engineers and trained interns in Python, SQL, Spark ETL, dimensional modeling, and lakehouse architecture."
+      "Owned the LeadGen data source end-to-end (POC, acquisition, ETL, and reporting backend).",
+      "Re-architected the Facebook Ads pipeline end-to-end (acquisition, ETL, reporting) into a modular, multithreaded design supporting easy extension of pulls and filters.",
+      "Migrated the reporting warehouse from Redshift (ra3.4xlarge) to a Dremio lakehouse (S3 + Glue Catalog), decoupling storage and compute to scale compute independently for heavy ad-hoc/aggregation queries.",
+      "Refactored demo-report anonymization from existing duplicated query classes into a reusable Python decorator with pandas post-processing, cutting 100+ report development from ~3 months to ~2 weeks.",
+      "Sped up acquisition 2–5× across Pinterest, TikTok, Google/Bing Ads, and Shopify via multithreading and memory tuning.",
+      "Integrated Redis caching into the reporting layer, cutting query latency ~70%.",
+      "Mentored junior engineers and interns across data acquisition, ETL, reporting logic, Spark, and data modeling."
     ],
     stack: [
       "Lakehouse",
@@ -60,12 +61,11 @@ export const experience: ExperienceItem[] = [
     badge: "",
     role: "Associate Data Engineer",
     company: "GrowByData Services",
-    location: "Lalitpur, Nepal",
+    location: "Kathmandu, Nepal · Hybrid (US-based stakeholders)",
     bullets: [
       "Built the first production acquisition pipeline for Pinterest Ads with OAuth2 authentication.",
-      "Scaled existing Facebook Ads acquisition to handle the throttle-limit issue, ensuring stable acquisition.",
-      "Resolved a production issue in ETL pipelines, gaining hands-on experience with star-schema modeling and Slowly Changing Dimension (SCD).",
-      "Migrated Talend ETLs into distributed Spark (Scala and SparkSQL), cutting Redshift CPU load by 2 to 3 times and reducing ETL latency by around 3 times."
+      "Refactored the Facebook Ads acquisition to handle API throttle limits, stabilizing ingestion.",
+      "Migrated Talend ETLs to distributed Spark (Scala + SparkSQL) using star-schema modeling and SCD, reducing Redshift CPU load and ETL latency."
     ],
     stack: [
       "Data Warehousing",
