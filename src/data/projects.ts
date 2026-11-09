@@ -69,16 +69,16 @@ export const projects: Project[] = [
   {
     slug: "major-project",
     title: "Real Time Visual Localization and Mapping of Mobile Robot in Dynamic Environment",
-    subtitle: "Final Year Project",
-    year: "2020",
+    subtitle: "Final Year Project, IOE Pulchowk (team of 4)",
+    year: "2020-2021",
     summary:
-      "Visual SLAM project to localize and navigate a mobile robot in a dynamic environment.",
+      "Single-camera SLAM for a mobile robot that masks out moving people with a CPU-speed segmentation model, cutting trajectory error on TUM's dynamic benchmark from 23.7 cm to 1.8 cm.",
     details:
-      "Visual SLAM based project to localize and navigate the mobile robot in a dynamic environment. Fine-tuned a semantic segmentation model (ICNet) to detect humans as dynamic obstacles so the robot does not treat them as valid landmarks while localizing itself.",
+      "Visual SLAM project to map a room and localize and navigate a mobile robot using one camera, in a scene with people moving. An ICNet segmentation model fine-tuned on our own walking dataset masks out people so their features are not used as landmarks.",
     background:
-      "Robot localization is the base for path planning and navigation, and for AR and VR. This project uses a single camera as its only sensor to build a 3D map of an entire room and localize the robot within that map, which can then be used for navigation.",
+      "Feature-based visual SLAM assumes the scene does not move. A person walking past adds features that move between frames, which corrupts both the map and the robot's estimated position. DynaSLAM handles this with Mask R-CNN, but that is too slow without a GPU. This project asks whether a real-time semantic segmentation model can do the same job on a laptop CPU.",
     abstract:
-      "Built on OpenVSLAM and ROS, the system extracts ORB features and uses multi-view geometry and graph optimization to map the room and track the robot pose. It tackles three classic visual SLAM problems: dynamic objects (masked out with a fine-tuned ICNet segmentation model so moving people are not used as landmarks), varying lighting (light-invariant feature extraction), and low-texture scenes. Heavy computation runs on a PC over ROS while a differential-drive robot executes the navigation commands.",
+      "Built with Nischal Maharjan, Rashik Shrestha and Sajil Awale (supervisor: Jitendra Kumar Manandhar). A Raspberry Pi on a rebuilt TurtleBot streams webcam frames over Wi-Fi to a PC running ROS. On the PC, ICNet produces a person mask for each frame, and custom ROS nodes pair each frame with its mask and pass both to OpenVSLAM. OpenVSLAM drops ORB features inside the mask before tracking and mapping, and its pose replaces wheel odometry for the ROS navigation stack. The 3D map is projected to a 2D occupancy grid and scaled from measured room dimensions, since a single camera has no metric scale. move_base then plans paths, which an Arduino executes as wheel speeds.",
     links: [
       {
         label: "Report",
@@ -96,19 +96,52 @@ export const projects: Project[] = [
     videoUrl: "https://player.vimeo.com/video/757833955?h=f6b17b597f",
     features: [
       {
-        title: "Single-camera 3D mapping and localization",
+        title: "Masking people out of SLAM",
         description:
-          "Uses one camera as the only sensor to build a 3D map of a room and localize the robot within it, built on OpenVSLAM with ORB features, multi-view geometry and graph optimization."
+          "Custom ROS nodes use a message_filters time synchronizer to pair each camera frame with its person mask, feed both into OpenVSLAM, and publish the resulting pose as /odom and TF. On the TUM dynamic benchmark, masking cut trajectory RMS error from 23.7 cm to 1.8 cm (walking_xyz) and from 51.5 cm to 4.0 cm (walking_rpy).",
+        images: [
+          {
+            src: "/img/Projects/Major_Project/masking.png",
+            alt: "ORB keypoints before masking, the person mask, and keypoints after masking",
+            title: "Keypoints before masking, mask, keypoints after masking"
+          }
+        ]
       },
       {
-        title: "Dynamic obstacle masking with ICNet",
+        title: "Real-time segmentation on a CPU",
         description:
-          "Fine-tuned an ICNet semantic segmentation model on a custom dataset to mask humans as dynamic obstacles so the SLAM pipeline does not treat them as valid landmarks."
+          "Compared ICNet, BiSeNet, DeepLabV3+ and UNet for speed and accuracy on a laptop CPU (Intel i5-8250U, no GPU). ICNet was the only model fast enough for real time. Fine-tuned with a frozen backbone (400K of 11.4M parameters trainable), it reached 83.3% mIoU at 24 FPS on our validation set.",
+        images: [
+          {
+            src: "/img/Projects/Major_Project/comparison.png",
+            alt: "Speed and mIoU comparison of segmentation models",
+            title: "Speed vs mIoU of segmentation models"
+          }
+        ]
       },
       {
-        title: "ROS navigation on a differential-drive robot",
+        title: "My role: research and the training dataset",
         description:
-          "Integrated the ROS Navigation Stack with an occupancy grid map and scaled odometry, with heavy computation on a PC over ROS while the robot executes navigation commands."
+          "Tried Mask R-CNN / DynaSLAM for handling moving people, found it too slow on a CPU, and helped move to real-time semantic segmentation. Built the dataset for fine-tuning ICNet: filmed people walking from the robot's camera height (focused on legs) in several places and lighting conditions, and auto-labeled the frames with Detectron2 Mask R-CNN converted to binary person masks (1,435 training and 1,350 validation images). This raised accuracy on our validation set from 80.1% to 83.3% mIoU. Also studied OpenVSLAM's tracking and threading code with the team.",
+        images: [
+          {
+            src: "/img/Projects/Major_Project/dataset.png",
+            alt: "Frames from the custom walking dataset",
+            title: "Custom walking dataset"
+          }
+        ]
+      },
+      {
+        title: "Robot and navigation",
+        description:
+          "A rebuilt TurtleBot with a Raspberry Pi (camera and serial bridge) and an Arduino (motor control using the differential-drive equations). All heavy computation ran on the PC: segmentation, SLAM, map_server and move_base with A* planning.",
+        images: [
+          {
+            src: "/img/Projects/Major_Project/path_planning.png",
+            alt: "Path planning on the occupancy grid map",
+            title: "Path planning in the pre-built map"
+          }
+        ]
       }
     ],
     team: [
@@ -117,7 +150,10 @@ export const projects: Project[] = [
         profileUrl: "https://shreyniraula.com.np/",
         avatar: "/img/teams/shrey.jpg",
         roleLabel: "073BEX443 (Me)"
-      }
+      },
+      { name: "Nischal Maharjan", profileUrl: "", avatar: "", roleLabel: "073BEX421" },
+      { name: "Rashik Shrestha", profileUrl: "https://github.com/rashikshrestha", avatar: "", roleLabel: "073BEX432" },
+      { name: "Sajil Awale", profileUrl: "https://github.com/AwaleSajil", avatar: "", roleLabel: "073BEX436" }
     ],
     nextSlug: "minor-project",
     href: "/projects/major-project",
@@ -126,8 +162,8 @@ export const projects: Project[] = [
       "/img/Projects/Major_Project/path_planning.png",
       "/img/Projects/Major_Project/masking.png"
     ],
-    repo: "https://github.com/Visual-Localization-and-Navigation",
-    stack: ["Visual SLAM", "OpenVSLAM", "ROS", "ICNet", "PyTorch", "Semantic Segmentation"]
+    repo: "https://github.com/ShreyNiraula/dynamic-visual-slam",
+    stack: ["Visual SLAM", "OpenVSLAM", "ROS", "C++", "PyTorch", "ICNet", "Detectron2", "OpenCV", "Raspberry Pi", "Arduino"]
   },
   {
     slug: "plf",
