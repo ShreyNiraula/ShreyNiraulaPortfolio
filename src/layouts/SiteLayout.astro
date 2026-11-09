@@ -212,7 +212,7 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       /* projects: horizontal scroll row (3 visible) */
       .pscroll { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 26px; scrollbar-width: none; }
       .pscroll::-webkit-scrollbar { display: none; }
-      .pcf-card { scroll-snap-align: start; flex: 0 0 calc((100% - 44px) / 3); min-width: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 16px; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+      .pcf-card { scroll-snap-align: start; flex: 0 0 calc((100% - 44px) / 3); min-width: 0; display: flex; flex-direction: column; position: relative; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 16px; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
       .pcf-card:hover { transform: translateY(-4px); border-color: var(--acc); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4); }
       .pcf-card.no-media .ps-body { justify-content: center; }
       .ps-media { position: relative; width: 100%; height: 175px; flex: none; overflow: hidden; background: var(--card-2); }
@@ -229,7 +229,7 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .ps-body p { font-size: 14px; line-height: 1.55; color: var(--ink-2); }
       .ps-stack { display: flex; flex-wrap: wrap; gap: 6px; }
       .ps-stack span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; }
-      .ps-links { display: flex; gap: 9px; flex-wrap: wrap; margin-top: auto; }
+      .ps-links { display: flex; gap: 9px; flex-wrap: wrap; margin-top: auto; position: relative; z-index: 2; }
       .ps-link { font-family: var(--font-mono); font-size: 11px; color: var(--ink); border: 1px solid var(--line-2); border-radius: 999px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 7px; transition: 0.18s; }
       .ps-link:hover { border-color: var(--acc); color: var(--acc); transform: translateY(-2px); }
       .pshow-nav { position: relative; display: flex; justify-content: center; align-items: center; margin-top: 26px; min-height: 46px; }
@@ -244,9 +244,9 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
 
       /* project grid (projects page) */
       .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-      .proj-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: 0.22s; }
+      .proj-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; transition: 0.22s; }
       .proj-card:hover { transform: translateY(-4px); border-color: var(--acc); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
-      .proj-card .thumb { aspect-ratio: 16 / 10; background: var(--card-2); position: relative; overflow: hidden; }
+      .proj-card .thumb { aspect-ratio: 16 / 10; background: var(--card-2); position: relative; z-index: 2; overflow: hidden; }
       .proj-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
       .proj-card:hover .thumb img { transform: scale(1.05); }
       .proj-card .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 9, 12, 0) 55%, rgba(8, 9, 12, 0.55)); }
@@ -261,9 +261,12 @@ const canonical = Astro.site ? new URL(path, Astro.site).toString() : path;
       .proj-card p { font-size: 14px; line-height: 1.55; color: var(--ink-2); }
       .proj-card .pc-stack { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 4px; }
       .proj-card .pc-stack span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 4px 8px; }
-      .proj-card .pc-links { display: flex; gap: 16px; padding: 0 18px 18px; }
-      .proj-card .pc-links a { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; transition: 0.15s; }
-      .proj-card .pc-links a:hover { color: var(--acc); }
+      .proj-card .pc-links { display: flex; gap: 9px; flex-wrap: wrap; padding: 0 18px 18px; position: relative; z-index: 2; }
+      .card-main-link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+      .card-main-link:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+      .pcf-card, .proj-card { cursor: pointer; }
+      .proj-card .pc-links a { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 999px; padding: 7px 12px; display: inline-flex; gap: 6px; align-items: center; transition: 0.18s; }
+      .proj-card .pc-links a:hover { color: var(--acc); border-color: var(--acc); transform: translateY(-2px); }
 
       .more-wrap { display: flex; justify-content: center; margin-top: 34px; }
       .more-btn { font-family: var(--font-disp); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; font-size: 15px; color: var(--ink); border: 1px solid var(--line-2); border-radius: 999px; padding: 13px 28px; display: inline-flex; align-items: center; gap: 12px; transition: 0.2s; }

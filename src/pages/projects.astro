@@ -50,7 +50,7 @@ const visibleProjects = projects.filter((p) => !p.hidden);
                     <span class="pc-yr">{p.year}</span>
                     {badge && <span class="badge">{badge}</span>}
                   </div>
-                  <h3>{p.title}</h3>
+                  <h3><a class="card-main-link" href={p.href}>{p.title}</a></h3>
                   <p>{p.details || p.summary}</p>
                   <div class="pc-stack">{p.stack.map((s) => <span>{s}</span>)}</div>
                 </div>
