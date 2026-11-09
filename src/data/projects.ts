@@ -262,17 +262,55 @@ export const projects: Project[] = [
   {
     slug: "abu-robocon",
     title: "ABU Robocon 2019 Simulator",
+    subtitle: "Computer Graphics Project, IOE Pulchowk",
     year: "2019",
     summary:
-      "A graphics project that simulates ABU Robocon 2019 robots and the arena to find the best robot configuration for the competition.",
+      "Real-time 3D simulation of the ABU Robocon 2019 arena and robots, with a playable match and time trial built on the official rules.",
     details:
-      "A graphics project to simulate the ABU Robocon 2019 robots and stage, used to experiment with and build the best robot configuration for the competition. Focused on camera calibration, lighting effects and model rendering.",
+      "A 3D simulation of the ABU Robocon 2019 \"Great Urtuu\" contest, rendered with OpenGL. The robots follow the white guidelines from the rulebook, and you can drive MR1 yourself.",
     background:
-      "Built to simulate the ABU Robocon 2019 robots and arena so the team could test and choose the best robot configuration before the competition.",
+      "In ABU Robocon 2019, a wheeled robot (MR1) carries the Gerege through a forest of poles and hands it to a four-legged robot (MR2), which crosses a sand dune and a tussock and climbs a mountain. The first MR2 to reach the top wins.",
+    abstract:
+      "Written in Python with moderngl, GLFW and PyGLM, using Blender models of the arena and robots. Robot routes are the white guidelines measured from the floor texture, and MR2's height follows the sand dune and mountain. The simulation is independent of frame rate and covered by 124 unit tests.",
+    features: [
+      {
+        title: "Arena and robots in 3D",
+        description:
+          "The full field and both teams' robots, loaded from OBJ/MTL and shaded with Blinn-Phong lighting.",
+        images: [
+          { src: "/img/Projects/ABU_Robocon/cover.png", alt: "The ABU Robocon 2019 arena mid-match", title: "The arena mid-match" }
+        ]
+      },
+      {
+        title: "Routes from the rulebook",
+        description:
+          "MR1 follows the white guideline through the forest like a line follower, and MR2 crosses the sand dune and tussock and climbs the mountain.",
+        images: [
+          { src: "/img/Projects/ABU_Robocon/walls-and-routes.png", alt: "Top view with robot routes", title: "Robot routes (yellow MR1, cyan MR2)" },
+          { src: "/img/Projects/ABU_Robocon/mr2-mountain.png", alt: "MR2 climbing the mountain", title: "MR2 climbing the mountain" }
+        ]
+      },
+      {
+        title: "Playable match and time trial",
+        description:
+          "Drive MR1 and hand over to an automatic MR2 in a race against a line-following team, or race a line-follower ghost with split times and a run log.",
+        images: [
+          { src: "/img/Projects/ABU_Robocon/help-panel.png", alt: "Match view with the sidebar", title: "Match" },
+          { src: "/img/Projects/ABU_Robocon/time-trial.png", alt: "Time trial with checkpoints", title: "Time trial" }
+        ]
+      }
+    ],
     previousSlug: "plf",
     nextSlug: "blind-eye",
     href: "/projects/abu-robocon",
-    stack: ["C++", "OpenGL", "Camera Calibration", "Lighting Effects", "Model Rendering"]
+    cardImage: "/img/Projects/ABU_Robocon/cover.png",
+    images: [
+      "/img/Projects/ABU_Robocon/cover.png",
+      "/img/Projects/ABU_Robocon/help-panel.png",
+      "/img/Projects/ABU_Robocon/mr2-mountain.png"
+    ],
+    repo: "https://github.com/ShreyNiraula/robocon-2019-arena",
+    stack: ["Python", "OpenGL", "GLSL", "Blender", "Simulation"]
   },
   {
     slug: "covid-worldmap",
