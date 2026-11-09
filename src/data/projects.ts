@@ -178,6 +178,88 @@ export const projects: Project[] = [
     stack: ["Visual SLAM", "OpenVSLAM", "ROS", "C++", "PyTorch", "ICNet", "Detectron2", "OpenCV", "Raspberry Pi", "Arduino"]
   },
   {
+    slug: "minor-project",
+    title: "Vehicle Traffic Management and Analysis",
+    subtitle: "Semester Project, rebuilt in 2026",
+    year: "2019",
+    summary:
+      "Tragnal: a traffic control dashboard for three signalled junctions on Kathmandu's Koteshwor corridor, with Webster's-method signal timing, corridor coordination and a live map and camera per junction.",
+    details:
+      "The project addresses traffic jams at Koteshwor, Jadibuti and Lokanthali, where fixed-timing traffic lights cause delays, deadlocks and higher fuel consumption. It began as a semester project and was rebuilt in 2026 as a clock-based Flask app that sets each junction's signal plan from traffic counts and shows it live.",
+    background:
+      "Fixed-timing traffic lights at busy Kathmandu Valley intersections cause delays, deadlocks and higher fuel consumption. The original project collected traffic counts and tested timing in PTV Vissim. The rebuild turns those counts into signal plans that run, are visible on a dashboard and can be checked by tests.",
+    abstract:
+      "Webster's method sets each junction's green split by hour and weekday from the 2020 traffic counts, and all three junctions share one cycle, with offsets based on travel time at 30 km/h. A junction's state is calculated from the clock, so there are no background threads or shared variables: every server process gives the same answer and tests can check any moment with a fake clock. Cycle lengths divide 3600 s, so a change of plan never cuts a phase short.",
+    features: [
+      {
+        title: "Home overview and live maps",
+        description:
+          "Every junction on one screen, each with a camera, a live OpenStreetMap view (movements coloured by phase, signal poles T1-T3), the phase countdown and a cycle bar. Movement routes are traced along OpenStreetMap's one-way carriageways.",
+        images: [
+          {
+            src: "/img/Projects/Minor_Project/home_overview.png",
+            alt: "Home page showing three junction cards with camera, map and countdown",
+            title: "Home: all junctions at a glance"
+          }
+        ]
+      },
+      {
+        title: "Junction page and charts",
+        description:
+          "A larger map and camera, the signal table, and charts for the day's cycle length, green split and load, next to the 2020 traffic counts. A clear warning appears if the connection drops.",
+        images: [
+          {
+            src: "/img/Projects/Minor_Project/junction.jpg",
+            alt: "Junction page with map, camera and signal table",
+            title: "Junction page"
+          },
+          {
+            src: "/img/Projects/Minor_Project/charts.jpg",
+            alt: "Charts of cycle length, green split and load",
+            title: "Daily timing and load charts"
+          }
+        ]
+      },
+      {
+        title: "Safe override, accounts and hardware feed",
+        description:
+          "An admin can end a green early, but yellow and all-red always run in full, the junction stays in sync and every press is recorded in an admin activity log with the time, junction, user and result (including refused presses). View-only and admin roles, password reset links and an admin page manage access. A token-protected endpoint serves the fixed-width message the signal controller reads.",
+        images: [
+          {
+            src: "/img/Projects/Minor_Project/admin_activity.png",
+            alt: "Admin activity log listing every press of Next with time, junction, user and result",
+            title: "Admin activity log: every Next press is recorded"
+          }
+        ]
+      },
+      {
+        title: "Camera relay",
+        description:
+          "Each junction can relay a real IP camera (for example a phone running an IP-camera app) or show a simulated CCTV view."
+      },
+      {
+        title: "Easy to extend: add a junction",
+        description:
+          "A new junction needs no Python changes. Copy a commented YAML file in config/junctions, fill in its traffic counts, signal poles and traced routes, and list it in settings.yaml. The Home page, junction page, charts and corridor timing offsets then include it, and a step-by-step guide covers the process."
+      },
+      {
+        title: "Original data collection and simulation",
+        description:
+          "Videos of traffic flow were processed to find vehicle density and stoppage times, and timing sequences were tested in PTV Vissim."
+      }
+    ],
+    previousSlug: "major-project",
+    nextSlug: "plf",
+    href: "/projects/minor-project",
+    images: [
+      "/img/Projects/Minor_Project/home_card.png",
+      "/img/Projects/Minor_Project/simulation.png",
+      "/img/Projects/Minor_Project/hardware_prototype.png"
+    ],
+    repo: "https://github.com/ShreyNiraula/Tragnal",
+    stack: ["Python", "Flask", "JavaScript", "Leaflet / OpenStreetMap", "pytest", "GitHub Actions", "PTV Vissim", "Data Collection"]
+  },
+  {
     slug: "plf",
     title: "Precision Livestock Farming",
     subtitle: "Winner Project in Locus Event 2019, Under Hardware Thematic Category",
@@ -219,7 +301,7 @@ export const projects: Project[] = [
           "Environmental sensors and AC appliances maintain a suitable habitat, while a mobile app lets the farmer monitor status and control heaters, lights and humidifiers, with alerts in critical situations."
       }
     ],
-    previousSlug: "covid-worldmap",
+    previousSlug: "minor-project",
     nextSlug: "abu-robocon",
     href: "/projects/plf",
     images: [
@@ -229,47 +311,6 @@ export const projects: Project[] = [
     ],
     repo: "https://github.com/AwaleSajil/PrecisionLivestockFarming",
     stack: ["YOLO", "SORT", "Sound Analysis", "IoT", "Mobile App", "Automation"]
-  },
-  {
-    slug: "minor-project",
-    title: "Vehicle Traffic Management and Analysis",
-    subtitle: "Semester Project",
-    year: "2019",
-    summary:
-      "An intelligent traffic system for Kathmandu Valley that detects flow, analyzes data, and optimizes signal timing across major intersections.",
-    details:
-      "The project addresses traffic jams in Kathmandu Valley, particularly at major intersections like Koteshwor, Jadibuti and Lokanthali, where fixed-timing traffic lights cause delays, deadlocks and higher fuel consumption. The goal was an intelligent system that detects traffic flow, analyzes data, and optimizes traffic light sequences for efficient management.",
-    background:
-      "Fixed-timing traffic lights at busy Kathmandu Valley intersections (Koteshwor, Jadibuti, Lokanthali) cause delays, deadlocks and higher fuel consumption. This project set out to detect traffic flow, analyze it, and optimize signal timing.",
-    abstract:
-      "The system was built across six phases: data collection, modeling, data analysis and prediction, hardware design and fabrication, app development, and testing and optimization. The insights aim to improve traffic management and reduce congestion in Kathmandu Valley.",
-    features: [
-      {
-        title: "Data collection",
-        description:
-          "Videos of traffic flow at the junctions were captured and processed to determine vehicle density and stoppage times."
-      },
-      {
-        title: "Web app control panel",
-        description:
-          "The web application serves as a traffic control panel for monitoring simulations and live streams, and managing traffic phases during emergencies."
-      },
-      {
-        title: "Optimization and testing",
-        description:
-          "Traffic flow data and optimized timing sequences were tested using the PTV Vissim simulation software."
-      }
-    ],
-    previousSlug: "major-project",
-    nextSlug: "covid-worldmap",
-    href: "/projects/minor-project",
-    images: [
-      "/img/Projects/Minor_Project/simulation.png",
-      "/img/Projects/Minor_Project/hardware_prototype.png",
-      "/img/Projects/Minor_Project/phases.png"
-    ],
-    repo: "https://github.com/ShreyNiraula/Tragnal",
-    stack: ["Python", "Flask", "JavaScript", "AJAX / jQuery", "PTV Vissim", "Data Collection", "Simulation", "Data Modeling"]
   },
   {
     slug: "abu-robocon",
