@@ -96,6 +96,18 @@ export const projects: Project[] = [
     videoUrl: "https://player.vimeo.com/video/757833955?h=f6b17b597f",
     features: [
       {
+        title: "The robot",
+        description:
+          "A rebuilt TurtleBot that carries a Raspberry Pi and a webcam, which streams frames over Wi-Fi to a PC running ROS, plus an Arduino that turns velocity commands into wheel speeds using the differential-drive equations. The robot only senses and moves. Segmentation, SLAM and planning all run on the PC.",
+        images: [
+          {
+            src: "/img/Projects/Major_Project/turtlebot.png",
+            alt: "The rebuilt TurtleBot with Raspberry Pi, camera and Arduino",
+            title: "The rebuilt TurtleBot"
+          }
+        ]
+      },
+      {
         title: "Masking people out of SLAM",
         description:
           "Custom ROS nodes use a message_filters time synchronizer to pair each camera frame with its person mask, feed both into OpenVSLAM, and publish the resulting pose as /odom and TF. On the TUM dynamic benchmark, masking cut trajectory RMS error from 23.7 cm to 1.8 cm (walking_xyz) and from 51.5 cm to 4.0 cm (walking_rpy).",
@@ -158,8 +170,8 @@ export const projects: Project[] = [
     nextSlug: "minor-project",
     href: "/projects/major-project",
     images: [
-      "/img/Projects/Major_Project/turtlebot.png",
       "/img/Projects/Major_Project/path_planning.png",
+      "/img/Projects/Major_Project/turtlebot.png",
       "/img/Projects/Major_Project/masking.png"
     ],
     repo: "https://github.com/ShreyNiraula/dynamic-visual-slam",
